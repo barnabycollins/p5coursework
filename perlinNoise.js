@@ -1,20 +1,21 @@
 // This sketch borrows heavily from yasai's perlin noise sketch
 // Tony R. 2018
 
-var seed = 'cheeses';
-var nums;
-var maxLife = 10;
-var noiseScale = 200;
-var	simulationSpeed = 0.2;
-var fadeFrame = 0;
+var seed = 'cheeses';       // seed for use by random() and noise()
+var nums;                   // number of particles to instantiate
+var minLife = 0;            // minimum life for each particle
+var maxLife = 10;           // maximum life for each particle
+var noiseScale = 200;       // constant to scale noise with
+var	simulationSpeed = 0.2;  // constant to scale particle velocities with
+var fadeFrame = 0;          // iterating variable to count frames
 
-var padding_top = 20;
-var padding_side = 20;
+var padding_top = 20;       // padding on top of box
+var padding_side = 20;      // padding on bottom of box
 
-var particles = [];
-var backgroundColor;
-var color_from;
-var color_to;
+var particles = [];         // array to put particles in
+var backgroundColor;        // background colour
+var color_from;             // colour for moving right
+var color_to;               // colour for moving left
 
 function windowResized() {
     resizeCanvas(windowWidth * 0.4, windowHeight);
@@ -102,7 +103,7 @@ function Particle(){
     // member properties and initialization
     this.vel = createVector(0, 0);
     this.pos = createVector(random(0, width), random(0, height));
-    this.life = random(0, maxLife);
+    this.life = random(minLife, maxLife);
     this.flip = int(random(0,2)) * 2 - 1;
     this.color1 = this.color2 = color('white');
     
