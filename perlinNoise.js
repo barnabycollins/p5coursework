@@ -1,23 +1,28 @@
 // This sketch borrows heavily from yasai's perlin noise sketch
 // Tony R. 2018
 
-var seed = "openprocessing";
+var seed = "cheeses";
 var nums;
 var maxLife = 10;
 var noiseScale = 200;
 var	simulationSpeed = 0.2;
 var fadeFrame = 0;
 
-var padding_top = 100;
-var padding_side = 100;
-var inner_square = 512;
+var padding_top = 20;
+var padding_side = 20;
 
 var particles = [];
 var backgroundColor;
 var color_from;
 var color_to;
 
+function windowResized() {
+    resizeCanvas(windowWidth * 0.4, windowHeight);
+}
+
 function setup(){
+    element = document.getElementById("p5_loading");
+    element.parentNode.removeChild(element);
 	randomSeed(seed);
 	noiseSeed(seed);
 	nums = 100;
@@ -29,14 +34,12 @@ function setup(){
 	color_to = color('cyan');
 	
 	//createCanvas(windowWidth, windowHeight);
-	createCanvas(windowHeight, windowHeight);
+    var myCanvas = createCanvas(windowWidth * 0.4, windowHeight);
+    myCanvas.parent("canvascontainer");
 	background(backgroundColor);
 	
 	noStroke();
 	smooth();
-	
-	padding_top = (height - inner_square)/2;
-	padding_side = (width - inner_square)/2;
 	
 	for(var i = 0; i < nums; i++){
 		var p = new Particle();
