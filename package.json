@@ -1,0 +1,22 @@
+{
+  "name": "p5coursework",
+  "version": "1.0.0",
+  "description": "Durham CS Coursework in p5.js",
+  "main": "perlinNoise.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barnstorm3r/p5coursework.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/barnstorm3r/p5coursework/issues"
+  },
+  "homepage": "https://github.com/barnstorm3r/p5coursework#readme",
+  "devDependencies": {
+    "eslint-config-p5js": "^1.0.1"
+  }
+}
