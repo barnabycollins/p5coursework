@@ -16,7 +16,5 @@
     "url": "https://github.com/barnstorm3r/p5coursework/issues"
   },
   "homepage": "https://github.com/barnstorm3r/p5coursework#readme",
-  "devDependencies": {
-    "eslint-config-p5js": "^1.0.1"
-  }
+  "devDependencies": {}
 }
