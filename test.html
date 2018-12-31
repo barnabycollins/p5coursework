@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                margin: 0px;
+                overflow: hidden;
+            }    
+        </style>
+    </head>
+    <body>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.min.js"></script>
+        <script src="perlinNoise_classy.js"></script>
+        <script>
+            var noise;
+            function setup() {
+                pNoise = new PerlinNoise(null,null,null,234);
+            }
+            function draw() {
+                pNoise.draw();
+            }
+        </script>
+    </body>
+</html>

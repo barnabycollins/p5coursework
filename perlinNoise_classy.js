@@ -13,20 +13,22 @@ class PerlinNoise {
         this.noiseScale = noiseScale || 200;                            // constant to scale noise with
         this.simulationSpeed = speed || 0.2;                            // constant to scale particle velocities with
         this.fadeFrame = 0;                                             // iterating variable to count frames
-        this.padding_top = paddingY || 20;                              // padding on top & bottom of box
-        this.padding_side = paddingX || 20;                             // padding on sides of box
+        this.padding_top = paddingY || 30;                              // padding on top & bottom of box
+        this.padding_side = paddingX || 30;                             // padding on sides of box
         this.particles = [];                                            // array to put particles in
         this.backgroundColor = backgroundColour || color(20, 20, 20);   // background colour
         this.defaultColour = defaultColour || color('white');           // colour for non-coloured particles
         this.color_from = colourR || color('purple');                   // colour for moving right
         this.color_to = colourL || color('cyan');                       // colour for moving left
 
-        var myCanvas = createCanvas(this.width, this.height);
-        if (parent) {
-            myCanvas.parent(this.parent);
+        this.myCanvas = createCanvas(this.width, this.height);
+        if (this.parent) {
+            this.myCanvas.parent(this.parent);
         }
-        element = document.getElementById('p5_loading');
-        element.parentNode.removeChild(element);
+        this.element = document.getElementById('p5_loading');
+        if (this.element) {
+            this.element.parentNode.removeChild(element);
+        }
 
         randomSeed(this.seed);
         noiseSeed(this.seed);
@@ -37,11 +39,11 @@ class PerlinNoise {
         smooth();
         
         // generate initial particle locations
-        for(var i = 0; i < nums; i++){
+        for(var i = 0; i < this.nums; i++){
             var p = new Particle(this.minLife, this.maxLife, this.defaultColour, this.color_to, this.color_from, this.width, this.height, this.padding_side, this.padding_top, this.noiseScale, this.simulationSpeed);
             p.pos.x = random(this.padding_side, this.width-this.padding_side);
             p.pos.y = this.padding_top;
-            particles[i] = p;
+            this.particles[i] = p;
         }
         
         fill(color(255));
@@ -84,12 +86,12 @@ class PerlinNoise {
             // work out how bright (opaque) the particle should be based on its life:
             // dark initially and finally, and bright otherwise
             var fade_ratio;
-            fade_ratio = min(particles[i].life * 5 / maxLife, 1);
-            fade_ratio = min((maxLife - particles[i].life) * 5 / maxLife, fade_ratio);
+            fade_ratio = min(this.particles[i].life * 5 / this.maxLife, 1);
+            fade_ratio = min((this.maxLife - this.particles[i].life) * 5 / this.maxLife, fade_ratio);
     
             // show the particle now that colour etc has been processed
             fill(red(particle_color), green(particle_color), blue(particle_color), alpha * fade_ratio);
-            particles[i].display(radius);
+            this.particles[i].display(radius);
         }
     }
 }
@@ -125,7 +127,7 @@ function Particle(minLife, maxLife, defaultColour, colourL, colourR, width, heig
         while(iterations > 0) {
             
             // compute angle
-            var transition = map(this.pos.x, padding_side, width-padding_side, 0, 1);
+            var transition = map(this.pos.x, padding_side, width-padding_side, 0.1, 0.9);
             var angle = noise(this.pos.x/noiseScale, this.pos.y/noiseScale)*transition*TWO_PI*noiseScale;
             //var transition = map(this.pos.y, height/5, height-padding_top, 0, 1, true);
             //var angle = HALF_PI;
@@ -152,7 +154,7 @@ function Particle(minLife, maxLife, defaultColour, colourL, colourR, width, heig
         }
     };
     
-    // unused alternative respawn function where we respawn anywhere in the canvas, not necessarily at the top
+    // alternative respawn function where we respawn anywhere in the canvas, not necessarily at the top
     this.respawn = function(){
         this.pos.x = random(0, width);
         this.pos.y = random(0, height);
