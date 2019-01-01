@@ -1,25 +1,49 @@
 // This sketch borrows heavily from yasai's perlin noise sketch
 // Tony R. 2018
+'use strict';
 
+
+
+/** Class to create a Perlin Noise sketch */
 class PerlinNoise {
-    constructor (parentDiv, width, height, seed, numParticles, minLife, maxLife, noiseScale, speed, paddingY, paddingX, backgroundColour, defaultColour, colourL, colourR) { 
+    /**
+    * Create new Perlin Noise sketch
+    * @param {string} [parentDiv] - The div to place the sketch inside
+    * @param {number} [width=windowHeight] - The width the canvas should take
+    * @param {number} [height=windowHeight] - The height the canvas should take
+    * @param {any} [seed=cheeses] - The seed to use to generate the noise
+    * @param {number} [numParticles=100] - The number of particles to generate
+    * @param {number} [mode=0] - The mode to use: 0 for particles spawning at the top, 1 for particles spawning everywhere
+    * @param {number} [minLife=0] - The minimum life to assign to each particle
+    * @param {number} [maxLife=10] - The maximum life to assign to each particle
+    * @param {number} [noiseScale=200] - The scale of the Perlin Noise relative to pixels
+    * @param {number} [speed=0.2] - A multiplier for the speed at which particles travel
+    * @param {number} [paddingY=30] - The vertical padding to add inside the canvas at the top and bottom
+    * @param {number} [paddingX=30] - The horizontal padding to add inside the canvas at the left and right sides
+    * @param {string} [backgroundColour=black] - The background colour to add
+    * @param {string} [defaultColour=white] - The colour to use for non-coloured particles
+    * @param {string} [colourL=cyan] - The colour to give particles travelling left
+    * @param {string} [colourR=purple] - The colour to give particles travelling right
+    */
+    constructor (parentDiv, width, height, seed, numParticles, mode, minLife, maxLife, noiseScale, speed, paddingY, paddingX, backgroundColour, defaultColour, colourL, colourR) { 
         this.parent = parentDiv || false;                               // id of div to be used as parent (false if none)
         this.width = width || windowHeight;                             // width of canvas
         this.height = height || windowHeight;                           // height of canvas
         this.seed = seed || 'cheeses';                                  // seed for use by random() and noise()
         this.nums = numParticles || 100;                                // number of particles to instantiate
+        this.mode = mode || 0;                                          // mode to use (are particles spawning everywhere (1) or just at the top (0)?)
         this.minLife = minLife || 0;                                    // minimum life for each particle
         this.maxLife = maxLife || 10;                                   // maximum life for each particle
         this.noiseScale = noiseScale || 200;                            // constant to scale noise with
         this.simulationSpeed = speed || 0.2;                            // constant to scale particle velocities with
-        this.fadeFrame = 0;                                             // iterating variable to count frames
         this.padding_top = paddingY || 30;                              // padding on top & bottom of box
         this.padding_side = paddingX || 30;                             // padding on sides of box
         this.particles = [];                                            // array to put particles in
-        this.backgroundColor = backgroundColour || color(20, 20, 20);   // background colour
+        this.backgroundColor = backgroundColour || color('black');      // background colour
         this.defaultColour = defaultColour || color('white');           // colour for non-coloured particles
-        this.color_from = colourR || color('purple');                   // colour for moving right
         this.color_to = colourL || color('cyan');                       // colour for moving left
+        this.color_from = colourR || color('purple');                   // colour for moving right
+        this.fadeFrame = 0;                                             // iterating variable to count frames
 
         this.myCanvas = createCanvas(this.width, this.height);
         if (this.parent) {
@@ -40,15 +64,23 @@ class PerlinNoise {
         
         // generate initial particle locations
         for(var i = 0; i < this.nums; i++){
-            var p = new Particle(this.minLife, this.maxLife, this.defaultColour, this.color_to, this.color_from, this.width, this.height, this.padding_side, this.padding_top, this.noiseScale, this.simulationSpeed);
+            var p = new Particle(this.mode, this.minLife, this.maxLife, this.defaultColour, this.color_to, this.color_from, this.width, this.height, this.padding_side, this.padding_top, this.noiseScale, this.simulationSpeed);
             p.pos.x = random(this.padding_side, this.width-this.padding_side);
-            p.pos.y = this.padding_top;
+            if (this.mode) {
+                p.pos.y = random(this.padding_top, this.height-this.padding_top);
+            }
+            else {
+                p.pos.y = this.padding_top;
+            }
             this.particles[i] = p;
         }
         
         fill(color(255));
     } // end constructor
 
+    /**
+     * To be put inside the p5 draw() function
+     */
     draw() {
         ++this.fadeFrame;               // increment fadeFrame
         if(this.fadeFrame % 5 == 0){    // every 5th frame
@@ -67,7 +99,7 @@ class PerlinNoise {
         // iterate through particles
         for(var i = 0; i < this.nums; i++){
             // iterations and radius both dependent on the particle's index
-            // (as they are randomly placed this ensures we have an even spread without creating patterns)
+            // (as they are randomly placed this ensures we have an even spread of properties without creating patterns)
             var iterations = map(i,0,this.nums,5,1);
             var radius = map(i,0,this.nums,2,6);
             
@@ -94,13 +126,30 @@ class PerlinNoise {
             this.particles[i].display(radius);
         }
     }
+
+    // optionally to be attached to the p5 windowResized function to allow for resizing the canvas to respond to changes in the window's shape
+    /**
+     * Resize the canvas to the given sizes
+     * @param {number} [resizeWidth='existing width'] - Width to make the canvas
+     * @param {number} [resizeHeight='existing height'] - Height to make the canvas
+     */
+    canvasSize(resizeWidth, resizeHeight) {
+        resizeWidth = resizeWidth || this.width;
+        resizeHeight = resizeHeight || this.height;
+        resizeCanvas(resizeWidth, resizeHeight);
+
+        // update width and height variables
+        this.width = resizeWidth;
+        this.height = resizeHeight;
+        for(var i = 0; i < this.nums; i++){
+            this.particles[i].setSize(resizeWidth, resizeHeight);
+        }
+    }
 }
 
-function windowResized() {
-    resizeCanvas(windowWidth * 0.4, windowHeight);
-}
 
-function Particle(minLife, maxLife, defaultColour, colourL, colourR, width, height, padding_side, padding_top, noiseScale, simulationSpeed){
+
+function Particle(respawnMode, minLife, maxLife, defaultColour, colourL, colourR, width, height, padding_side, padding_top, noiseScale, simulationSpeed){
     // member properties and initialization
     this.vel = createVector(0, 0);
     this.pos = createVector(random(0, width), random(0, height));
@@ -120,7 +169,7 @@ function Particle(minLife, maxLife, defaultColour, colourL, colourR, width, heig
     this.move = function(iterations){
         // if dead, respawn
         if((this.life -= 0.01666) < 0) {
-            this.respawnTop();
+            this.respawn();
         }
 
         // while we still have iterations to use up
@@ -150,21 +199,19 @@ function Particle(minLife, maxLife, defaultColour, colourL, colourR, width, heig
         || this.pos.x < padding_side
         || this.pos.y > height - padding_top
         || this.pos.y < padding_top){
-            this.respawnTop();
+            this.respawn();
         }
     };
     
     // alternative respawn function where we respawn anywhere in the canvas, not necessarily at the top
     this.respawn = function(){
-        this.pos.x = random(0, width);
-        this.pos.y = random(0, height);
-        this.life = maxLife;
-    };
-    
-    // respawn at the top
-    this.respawnTop = function() {
         this.pos.x = random(padding_side, width-padding_side);
-        this.pos.y = padding_top;
+        if (respawnMode) {
+            this.pos.y = random(padding_top, height-padding_top);
+        }
+        else {
+            this.pos.y = padding_top;
+        }
         this.life = maxLife;
     };
 
@@ -172,4 +219,9 @@ function Particle(minLife, maxLife, defaultColour, colourL, colourR, width, heig
     this.display = function(r){
         ellipse(this.pos.x, this.pos.y, r, r);
     };
+
+    this.setSize = function(x, y) {
+        width = x || width;
+        height = y || height;
+    }
 }
