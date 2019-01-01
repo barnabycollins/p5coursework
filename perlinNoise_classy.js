@@ -8,16 +8,16 @@
 class PerlinNoise {
     /**
     * Create new Perlin Noise sketch
-    * @param {string} [parentDiv] - The div to place the sketch inside
+    * @param {string} [parentDiv] - The div id to place the sketch inside
     * @param {number} [width=windowHeight] - The width the canvas should take
     * @param {number} [height=windowHeight] - The height the canvas should take
     * @param {any} [seed=cheeses] - The seed to use to generate the noise
-    * @param {number} [numParticles=100] - The number of particles to generate
+    * @param {number} [numParticles=100] - The number of particles to generate (default: 100)
     * @param {number} [mode=0] - The mode to use: 0 for particles spawning at the top, 1 for particles spawning everywhere
-    * @param {number} [minLife=0] - The minimum life to assign to each particle
-    * @param {number} [maxLife=10] - The maximum life to assign to each particle
-    * @param {number} [noiseScale=200] - The scale of the Perlin Noise relative to pixels
-    * @param {number} [speed=0.2] - A multiplier for the speed at which particles travel
+    * @param {number} [minLife=0] - The minimum life to assign to each particle (default: 0)
+    * @param {number} [maxLife=10] - The maximum life to assign to each particle (default: 10)
+    * @param {number} [noiseScale=200] - The scale of the Perlin Noise relative to pixels (default: 200)
+    * @param {number} [speed=0.2] - A multiplier for the speed at which particles travel (default: 0.2)
     * @param {number} [paddingY=30] - The vertical padding to add inside the canvas at the top and bottom
     * @param {number} [paddingX=30] - The horizontal padding to add inside the canvas at the left and right sides
     * @param {string} [backgroundColour=black] - The background colour to add
