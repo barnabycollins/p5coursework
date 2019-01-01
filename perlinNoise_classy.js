@@ -11,7 +11,7 @@ class PerlinNoise {
     * @param {string} [parentDiv] - The div id to place the sketch inside
     * @param {number} [width=windowHeight] - The width the canvas should take
     * @param {number} [height=windowHeight] - The height the canvas should take
-    * @param {any} [seed=cheeses] - The seed to use to generate the noise
+    * @param {number} [seed=1337] - The seed to use to generate the noise - must be a number
     * @param {number} [numParticles=100] - The number of particles to generate (default: 100)
     * @param {number} [mode=0] - The mode to use: 0 for particles spawning at the top, 1 for particles spawning everywhere
     * @param {number} [minLife=0] - The minimum life to assign to each particle (default: 0)
@@ -29,7 +29,7 @@ class PerlinNoise {
         this.parent = parentDiv || false;                               // id of div to be used as parent (false if none)
         this.width = width || windowHeight;                             // width of canvas
         this.height = height || windowHeight;                           // height of canvas
-        this.seed = seed || 'cheeses';                                  // seed for use by random() and noise()
+        this.seed = seed || 1337;                                       // seed for use by random() and noise()
         this.nums = numParticles || 100;                                // number of particles to instantiate
         this.mode = mode || 0;                                          // mode to use (are particles spawning everywhere (1) or just at the top (0)?)
         this.minLife = minLife || 0;                                    // minimum life for each particle
@@ -45,13 +45,13 @@ class PerlinNoise {
         this.color_from = colourR || color('purple');                   // colour for moving right
         this.fadeFrame = 0;                                             // iterating variable to count frames
 
-        this.myCanvas = createCanvas(this.width, this.height);
+        this.canvas = createCanvas(this.width, this.height);
         if (this.parent) {
-            this.myCanvas.parent(this.parent);
+            this.canvas.parent(this.parent);
         }
         this.element = document.getElementById('p5_loading');
         if (this.element) {
-            this.element.parentNode.removeChild(element);
+            this.element.parentNode.removeChild(this.element);
         }
 
         randomSeed(this.seed);
@@ -106,8 +106,6 @@ class PerlinNoise {
             this.particles[i].move(iterations);
             this.particles[i].checkEdge();
             
-            var alpha = 255;
-            
             // work out the colour the particle should have based on its heading
             var particle_heading = this.particles[i].vel.heading()/PI;
             if(particle_heading < 0){
@@ -122,7 +120,7 @@ class PerlinNoise {
             fade_ratio = min((this.maxLife - this.particles[i].life) * 5 / this.maxLife, fade_ratio);
     
             // show the particle now that colour etc has been processed
-            fill(red(particle_color), green(particle_color), blue(particle_color), alpha * fade_ratio);
+            fill(red(particle_color), green(particle_color), blue(particle_color), 255 * fade_ratio);
             this.particles[i].display(radius);
         }
     }
