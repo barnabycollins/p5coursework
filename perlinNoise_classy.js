@@ -11,7 +11,7 @@ class PerlinNoise {
     * @param {string} [parentDiv] - The div id to place the sketch inside
     * @param {number} [width=windowHeight] - The width the canvas should take
     * @param {number} [height=windowHeight] - The height the canvas should take
-    * @param {number} [seed=1337] - The seed to use to generate the noise - must be a number
+    * @param {number} [seed=1337] - The seed to use to generate the noise: must be a number, not a string
     * @param {number} [numParticles=100] - The number of particles to generate (default: 100)
     * @param {number} [mode=0] - The mode to use: 0 for particles spawning at the top, 1 for particles spawning everywhere
     * @param {number} [minLife=0] - The minimum life to assign to each particle (default: 0)
