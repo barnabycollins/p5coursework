@@ -223,5 +223,5 @@ function Particle(respawnMode, minLife, maxLife, defaultColour, colourL, colourR
     this.setSize = function(x, y) {
         width = x || width;
         height = y || height;
-    }
+    };
 }
