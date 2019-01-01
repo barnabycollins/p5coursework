@@ -14,7 +14,7 @@ function updateSketch() {
     for (i = 0; i < inputs.length; i++) {
         if (inputs[i].className == 'number') {
             if (isNaN(eval('Number(form.' + inputs[i].name + '.value);'))) {
-                eval(inputs[i].name + ' = null;')
+                eval(inputs[i].name + ' = null;');
             }
             else {
                 eval(inputs[i].name + ' = Number(form.' + inputs[i].name + '.value);');
@@ -32,7 +32,7 @@ function updateSketch() {
 
 document.addEventListener('DOMContentLoaded', function() {
     form = document.getElementById('parameterform');
-    inputs = form.getElementsByTagName('input')
+    inputs = form.getElementsByTagName('input');
     form.addEventListener('submit', function(event) {
         event.preventDefault();
         updateSketch();
