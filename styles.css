@@ -55,6 +55,20 @@ form p {
     margin-top: 7px;
     text-align: justify;
 }
+form input:not(.radio):not(.submit-button) {
+    margin-top: 1px;
+    padding: 5px;
+    font-size: 18px;
+    border: 0px;
+    background-color: #e8e8e8;
+    width: 80px;
+    border: 0.5px solid #e8e8e8;
+    transition: border 0.5s ease;
+    outline: none;
+}
+form input:not(.radio):not(.submit-button):focus {
+    border: 0.5px solid #000000;
+}
 form .submit-button {
     border: 0px;
     background-color: #000000;
@@ -64,8 +78,8 @@ form .submit-button {
     font-weight: bold;
     padding: 1% 2%;
     position: fixed;
-    bottom: 0;
-    right: 0;
+    bottom: 20px;
+    right: 20px;
     transition: background-color 0.5s ease, color 0.5s ease;
     cursor: pointer;
 }
