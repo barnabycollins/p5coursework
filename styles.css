@@ -11,6 +11,7 @@ body {
 a {
     color: #555;
     text-decoration: none;
+    transition: color 0.5s ease;
 }
 a:hover {
     color: #000;
@@ -27,10 +28,11 @@ a:hover {
     top: 0;
     bottom: 0;
     left: 0;
+    box-shadow: 0px 0px 80px -20px #666666;
 }
 #sidebar {
     margin-left: 40vw;
-    padding: 1%;
+    padding: 2%;
 }
 #sidebar h1 {
     font-size: 90px;
@@ -38,4 +40,36 @@ a:hover {
 }
 #sidebar h2 {
     margin: 0px;
+}
+form {
+    margin-right: 20vw;
+}
+form h4 {
+    margin-bottom: 0px;
+}
+form h5 {
+    margin-top: 3px;
+    margin-bottom: 0px;
+}
+form p {
+    margin-top: 7px;
+    text-align: justify;
+}
+form .submit-button {
+    border: 0px;
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 1% 2%;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    cursor: pointer;
+}
+form .submit-button:hover {
+    background-color: #aaaaaa;
+    color: #000000;
 }
