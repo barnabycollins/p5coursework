@@ -83,7 +83,7 @@ class PerlinNoise {
      */
     draw() {
         ++this.fadeFrame;               // increment fadeFrame
-        if(this.fadeFrame % 5 == 0){    // every 5th frame
+        if(this.fadeFrame % 5 == 0){    // every 5th frame,
             
             blendMode(DIFFERENCE);      // fade past particle trails
             fill(1, 1, 1);
@@ -125,7 +125,7 @@ class PerlinNoise {
             fill(red(particle_color), green(particle_color), blue(particle_color), alpha * fade_ratio);
             this.particles[i].display(radius);
         }
-    }
+    } // end draw
 
     // optionally to be attached to the p5 windowResized function to allow for resizing the canvas to respond to changes in the window's shape
     /**
@@ -144,8 +144,8 @@ class PerlinNoise {
         for(var i = 0; i < this.nums; i++){
             this.particles[i].setSize(resizeWidth, resizeHeight);
         }
-    }
-}
+    } // end canvasSize
+} // end PerlinNoise
 
 
 
@@ -165,7 +165,7 @@ function Particle(respawnMode, minLife, maxLife, defaultColour, colourL, colourR
         this.color2 = colourL;
     }
     
-    // member functions
+    // run every frame
     this.move = function(iterations){
         // if dead, respawn
         if((this.life -= 0.01666) < 0) {
