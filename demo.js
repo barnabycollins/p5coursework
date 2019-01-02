@@ -1,4 +1,4 @@
-var pNoise, seed, numParticles, mode, minLife, maxLife, noiseScale, speed, paddingY, paddingX, backgroundColour, defaultColour, colourL, colourR, submit;
+var pNoise, seed = 759, numParticles = 250, mode, minLife, maxLife = 20, noiseScale, speed, paddingY, paddingX, backgroundColour, defaultColour, colourL, colourR, submit;
 
 function setup() {
     pNoise = new PerlinNoise('canvascontainer', windowWidth * 0.4, windowHeight, seed, numParticles, mode, minLife, maxLife, noiseScale, speed, paddingY, paddingX, backgroundColour, defaultColour, colourL, colourR);
@@ -12,7 +12,7 @@ function windowResized() {
 
 function updateSketch() {
     for (i = 0; i < inputs.length; i++) {
-        if (inputs[i].className == 'number') {
+        if (inputs[i].className.indexOf('number') !== -1) {
             if (isNaN(eval('Number(form.' + inputs[i].name + '.value);'))) {
                 eval(inputs[i].name + ' = null;');
             }
@@ -37,4 +37,5 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         updateSketch();
     });
+    console.log(inputs);
 });

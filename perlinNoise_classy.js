@@ -205,7 +205,8 @@ function Particle(respawnMode, minLife, maxLife, defaultColour, colourL, colourR
     this.respawn = function(){
         this.pos.x = random(padding_side, width-padding_side);
         if (respawnMode) {
-            this.pos.y = random(padding_top, height-padding_top);
+            this.pos.y = random(padding_top, (height*0.7-padding_top));
+            // as particles tend to travel downwards, it is better to weight their spawn so they appear further up more often
         }
         else {
             this.pos.y = padding_top;
