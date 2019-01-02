@@ -37,5 +37,4 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         updateSketch();
     });
-    console.log(inputs);
 });
