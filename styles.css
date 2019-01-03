@@ -69,19 +69,27 @@ form input:not(.radio):not(.submit-button) {
 form input:not(.radio):not(.submit-button):focus {
     border: 0.5px solid #000000;
 }
+#btn-div {
+    position: fixed;
+    bottom: 0px;
+    right: 20px;
+}
 form .submit-button {
+    display: block;
     border: 0px;
+    margin-bottom: 20px;
+    padding: 0px;
     background-color: #000000;
     color: #ffffff;
     font-size: 20px;
+    text-align: center;
     text-transform: uppercase;
     font-weight: bold;
-    padding: 1% 2%;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
     transition: background-color 0.5s ease, color 0.5s ease;
     cursor: pointer;
+    height: 60px;
+    width: 150px;
+    outline: none;
 }
 form .submit-button:hover {
     background-color: #aaaaaa;

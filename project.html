@@ -9,7 +9,7 @@
         <div id="sidebar">
             <h1>Perlin Noise</h1>
             <h2>Based on <a href="https://www.openprocessing.org/sketch/566877" target="_blank">this sketch</a> by <a href="https://www.openprocessing.org/user/77286" target="_blank">Tony R.</a></h2>
-            <form id="parameterform">
+            <form autocomplete="off" id="parameterform">
                 <h4>Seed</h4>
                 <input type="text" class="number" name="seed" value="759">
                 <p>The seed is used to generate the Perlin Noise that produces the patterns you see. A different seed will result in different patterns. NB: the seed needs to be a number.</p>
@@ -35,7 +35,7 @@
                 <p>The noise scale gives how large the Perlin Noise canvas should be relative to the pixels on your screen. A smaller value will result in more intricate patterns, and a larger value in larger, less detailed patterns.</p>
 
                 <h4>Simulation Speed</h4>
-                <input type="text" class="number" name="speed" value="0.2">
+                <input type="text" class="number" name="simulationSpeed" value="0.2">
                 <p>The speed expresses how fast the particles should move around. Very high speeds may cause the trails to look less consistent.</p>
 
                 <h4>Inner Padding</h4>
@@ -58,8 +58,10 @@
                 <h5>Right</h5>
                 <input type="text" class="colour" name="colourR" value="#800080">
                 <p>The colour to use for coloured particles moving right.</p>
-
-                <input type="submit" class="submit-button" name="submit" value="Update">
+                <div id="btn-div">
+                    <input type="submit" class="submit-button" name="submit" value="Update">
+                    <input type="button" class="submit-button" id="restart-btn" name="restart" value="Restart">
+                </div>
             </form>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.min.js"></script>
