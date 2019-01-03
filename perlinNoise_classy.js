@@ -46,6 +46,11 @@ class PerlinNoise {
         this.particles = [];                                            // array to put particles in
         this.fadeFrame = 0;                                             // iterating variable to count frames
 
+        // arrays containing the names of valid variables for the get and set functions
+        this.strings = ['parentDiv'];
+        this.numbers = ['width', 'height', 'seed', 'numParticles', 'mode', 'minLife', 'maxLife', 'noiseScale', 'simulationSpeed', 'paddingY', 'paddingX'];
+        this.colours = ['backgroundColour', 'defaultColour', 'colourL', 'colourR'];
+
         this.canvas = createCanvas(this.width, this.height);
         if (this.parentDiv) {
             this.canvas.parent(this.parentDiv);
@@ -142,43 +147,66 @@ class PerlinNoise {
     } // end canvasSize
 
     /**
-     * Sets the value of one of the class parameters
-     * @param {string} name - the name of the parameter you want to change
-     * @param {*} value - the value you want to change it to
+     * Sets the value of one of the class parameters, and ensures updated values are actually propagated if their values only get used at the start.
+     * @param {string} name - The name of the parameter you want to change
+     * @param {*} value - The value you want to change it to
      */
     setParameter(name, value) {
-        var strings = ['parentDiv'];
-        var numbers = ['width', 'height', 'seed', 'numParticles', 'mode', 'minLife', 'maxLife', 'noiseScale', 'simulationSpeed', 'paddingY', 'paddingX'];
-        var colours = ['backgroundColour', 'defaultColour', 'colourL', 'colourR'];
-        if (strings.indexOf(name) !== -1) {
+        if (typeof value == 'undefined') {
+            throw 'Error in PerlinNoise.setParameter: no value given';
+        }
+        // if we're expecting a string
+        if (this.strings.indexOf(name) !== -1) {
+            // evaluate given value appropriately
             eval('this.' + name + ' = "' + value + '";');
+            
+            // update the parent div if we were given an updated value for it
             if (name == 'parentDiv') {
                 this.canvas.parent(this.parentDiv);
             }
         }
-        else if (numbers.indexOf(name) !== -1) {
+        else if (this.numbers.indexOf(name) !== -1) {
             if (typeof value == 'number') {
                 eval('this.' + name + ' = ' + value.toString() + ';');
+
                 if (name == 'seed') {
+                    // update the seed if necessary
                     randomSeed(this.seed);
                     noiseSeed(this.seed);
                 }
                 else if (name == 'width' || name == 'height') {
+                    // resize the canvas if necessary
                     canvasSize();
-                    // if no arguments given, canvasSize pulls width and height from this.width and this.height
+                    // if no arguments given, canvasSize pulls width and height from this.width and this.height anyway so we don't need arguments
                 }
             }
             else {
                 throw ('Error in PerlinNoise.setParameter: value expected number but got ' + typeof value);
             }
         }
-        else if (colours.indexOf(name) !== -1) {
+        else if (this.colours.indexOf(name) !== -1) {
+            // no need for checking as color() already returns white with invalid values and it's hard to check colour values anyway
             eval('this.' + name + ' = color("' + value + '");');
         }
         else {
             throw ('Error in PerlinNoise.setParameter: variable name given (' + name +') does not exist');
         }
-    }
+    } // end setParameter
+
+    /**
+     * Returns the value of one of the class parameters.
+     * @param {string} name - Name of variable to get
+     */
+    getParameter(name) {
+        // if name references a variable that exists
+        if (this.strings.indexOf(name) !== -1 || this.numbers.indexOf(name) !== -1 || this.colours.indexOf(name) !== -1) {
+            // return the value of that variable
+            return eval('this.'+name);
+        }
+        else {
+            throw ('Error in PerlinNoise.getParameter: variable name given (' + name +') does not exist');
+        }
+    } // end getParameter
 } // end PerlinNoise
 
 
