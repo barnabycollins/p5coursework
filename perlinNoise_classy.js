@@ -179,6 +179,27 @@ class PerlinNoise {
                     canvasSize();
                     // if no arguments given, canvasSize pulls width and height from this.width and this.height anyway so we don't need arguments
                 }
+                else if (name == 'numParticles') {
+                    // if we need to change the number of particles
+                    if (value > this.particles.length) {
+                        // add new particles to the array if necessary
+                        for (i = this.particles.length; i < value; i++) {
+                            var p = new Particle(this);
+                            p.pos.x = random(this.paddingX, this.width-this.paddingX);
+                            if (this.mode) {
+                                p.pos.y = random(this.paddingY, this.height-this.paddingY);
+                            }
+                            else {
+                                p.pos.y = this.paddingY;
+                            }
+                            this.particles[i] = p;
+                        }
+                    }
+                    else {
+                        // remove particles from the array if necessary
+                        this.particles.length = value;
+                    }
+                }
             }
             else {
                 throw ('Error in PerlinNoise.setParameter: value expected number but got ' + typeof value);
