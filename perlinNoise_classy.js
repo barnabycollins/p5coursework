@@ -21,12 +21,11 @@ class PerlinNoise {
     * @param {number} [simulationSpeed=0.2] - A multiplier for the speed at which particles travel (default: 0.2)
     * @param {number} [paddingY=30] - The vertical padding to add inside the canvas at the top and bottom
     * @param {number} [paddingX=30] - The horizontal padding to add inside the canvas at the left and right sides
-    * @param {color} [backgroundColour=black] - The background colour to add
     * @param {color} [defaultColour=white] - The colour to use for non-coloured particles
     * @param {color} [colourL=cyan] - The colour to give particles travelling left
     * @param {color} [colourR=purple] - The colour to give particles travelling right
     */
-    constructor (parentDiv, width, height, seed, numParticles, mode, minLife, maxLife, noiseScale, simulationSpeed, paddingY, paddingX, backgroundColour, defaultColour, colourL, colourR) { 
+    constructor (parentDiv, width, height, seed, numParticles, mode, minLife, maxLife, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR) { 
         this.parentDiv = parentDiv || false;                            // id of div to be used as parent (false if none)
         this.width = width || windowHeight;                             // width of canvas
         this.height = height || windowHeight;                           // height of canvas
@@ -39,17 +38,18 @@ class PerlinNoise {
         this.simulationSpeed = simulationSpeed || 0.2;                  // constant to scale particle velocities with
         this.paddingY = paddingY || 30;                                 // padding on top & bottom of box
         this.paddingX = paddingX || 30;                                 // padding on sides of box
-        this.backgroundColor = backgroundColour || color('black');      // background colour
         this.defaultColour = defaultColour || color('white');           // colour for non-coloured particles
         this.colourL = colourL || color('cyan');                        // colour for moving left
         this.colourR = colourR || color('purple');                      // colour for moving right
         this.particles = [];                                            // array to put particles in
         this.fadeFrame = 0;                                             // iterating variable to count frames
+        this.backgroundColour = color('black');                         // background colour
+        // (bg cannot be changed due to the implementation of fading which darkens the whole sketch every few frames)
 
         // arrays containing the names of valid variables for the get and set functions
         this.strings = ['parentDiv'];
         this.numbers = ['width', 'height', 'seed', 'numParticles', 'mode', 'minLife', 'maxLife', 'noiseScale', 'simulationSpeed', 'paddingY', 'paddingX'];
-        this.colours = ['backgroundColour', 'defaultColour', 'colourL', 'colourR'];
+        this.colours = ['defaultColour', 'colourL', 'colourR'];
 
         this.canvas = createCanvas(this.width, this.height);
         if (this.parentDiv) {
@@ -63,7 +63,7 @@ class PerlinNoise {
         randomSeed(this.seed);
         noiseSeed(this.seed);
 
-        background(this.backgroundColor);
+        background(this.backgroundColour);
         
         noStroke();
         smooth();
@@ -93,9 +93,9 @@ class PerlinNoise {
             blendMode(DIFFERENCE);      // fade past particle trails
             fill(1, 1, 1);
             rect(0,0,this.width,this.height);
-    
+            
             blendMode(LIGHTEST);
-            fill(this.backgroundColor);
+            fill(this.backgroundColour);
             rect(0,0,this.width,this.height);
         }
         
@@ -235,19 +235,9 @@ class PerlinNoise {
 function Particle(p){
     // member properties and initialization
     this.vel = createVector(0, 0);
-    this.pos = createVector(random(0, p.width), random(0, p.height));
+    this.pos = createVector(0, 0);
     this.life = random(p.minLife, p.maxLife);
-    this.flip = int(random(0,2)) * 2 - 1;
-    this.color1 = this.color2 = p.defaultColour;
-    
-    // at a 1/3 chance, make this a coloured particle
-    if(int(random(3)) == 1){
-        //this.color1 = color('palegreen');
-        //this.color2 = color('cyan');
-        this.color1 = p.colourR;
-        this.color2 = p.colourL;
-    }
-    
+
     // run every frame
     this.move = function(iterations){
         // if dead, respawn
@@ -288,6 +278,14 @@ function Particle(p){
     
     // alternative respawn function where we respawn anywhere in the canvas, not necessarily at the top
     this.respawn = function(){
+        this.color1 = this.color2 = p.defaultColour;
+        
+        // at a 1/3 chance, make this a coloured particle
+        if(int(random(3)) == 1){
+            this.color1 = p.colourR;
+            this.color2 = p.colourL;
+        }
+
         this.pos.x = random(p.paddingX, p.width - p.paddingX);
         if (p.mode) {
             this.pos.y = random(p.paddingY, (p.height*0.7 - p.paddingY));
@@ -303,4 +301,6 @@ function Particle(p){
     this.display = function(r){
         ellipse(this.pos.x, this.pos.y, r, r);
     };
+    
+    this.respawn();
 }
