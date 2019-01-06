@@ -52,11 +52,6 @@ class PerlinNoise {
         this.numbers = ['seed', 'numParticles', 'mode', 'minLife', 'maxLife', 'noiseScale', 'simulationSpeed', 'paddingY', 'paddingX'];
         this.colours = ['defaultColour', 'colourL', 'colourR'];
 
-        this.element = document.getElementById('p5_loading');
-        if (this.element) {
-            this.element.parentNode.removeChild(this.element);
-        }
-
         randomSeed(this.seed);
         noiseSeed(this.seed);
         if (this.r) {
