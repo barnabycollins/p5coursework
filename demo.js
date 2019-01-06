@@ -1,14 +1,34 @@
-var pNoise, seed = 759, numParticles = 250, mode, minLife, maxLife = 20, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR, submit;
+var element, canvas, pNoise, seed = 759, numParticles = 250, mode, minLife, maxLife = 20, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR, submit;
 
 function setup() {
-    pNoise = new PerlinNoise('canvascontainer', windowWidth * 0.4, windowHeight, seed, numParticles, mode, minLife, maxLife, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR);
+    element = document.getElementById('p5_loading');
+    if (element) {
+        element.parentNode.removeChild(element);
+    }
+
+
+    canvas = createCanvas(windowWidth * 0.4, windowHeight);
+    canvas.parent('canvascontainer');
+    pNoise = new PerlinNoise(canvas, seed, numParticles, mode, minLife, maxLife, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR);
 }
 function draw() {
-    pNoise.draw();
+    pNoise.draw(canvas);
 }
 function windowResized() {
-    pNoise.canvasSize(windowWidth * 0.4, windowHeight);
+    resizeCanvas(windowWidth * 0.4, windowHeight);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    form = document.getElementById('parameterform');
+    inputs = form.getElementsByTagName('input');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        updateSketch();
+    });
+    document.getElementById('restart-btn').addEventListener('click', function() {
+        restartSketch();
+    });
+});
 
 /**
  * Update the (live) sketch with new values from the form
@@ -56,15 +76,3 @@ function restartSketch() {
     }
     setup();
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-    form = document.getElementById('parameterform');
-    inputs = form.getElementsByTagName('input');
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        updateSketch();
-    });
-    document.getElementById('restart-btn').addEventListener('click', function() {
-        restartSketch();
-    });
-});

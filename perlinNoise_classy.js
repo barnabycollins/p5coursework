@@ -9,9 +9,6 @@
 class PerlinNoise {
     /**
     * Create new Perlin Noise sketch
-    * @param {string} [parentDiv] - The div id to place the sketch inside
-    * @param {number} [width=windowHeight] - The width the canvas should take
-    * @param {number} [height=windowHeight] - The height the canvas should take
     * @param {number} [seed=1337] - The seed to use to generate the noise: must be a number, not a string
     * @param {number} [numParticles=100] - The number of particles to generate (default: 100)
     * @param {number} [mode=0] - The mode to use: 0 for particles spawning at the top, 1 for particles spawning everywhere
@@ -25,10 +22,7 @@ class PerlinNoise {
     * @param {color} [colourL=cyan] - The colour to give particles travelling left
     * @param {color} [colourR=purple] - The colour to give particles travelling right
     */
-    constructor (parentDiv, width, height, seed, numParticles, mode, minLife, maxLife, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR) { 
-        this.parentDiv = parentDiv || false;                            // id of div to be used as parent (false if none)
-        this.width = width || windowHeight;                             // width of canvas
-        this.height = height || windowHeight;                           // height of canvas
+    constructor (seed, numParticles, mode, minLife, maxLife, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR) {
         this.seed = seed || 1337;                                       // seed for use by random() and noise()
         this.numParticles = numParticles || 100;                        // number of particles to instantiate
         this.mode = mode || 0;                                          // mode to use (are particles spawning everywhere (1) or just at the top (0)?)
@@ -43,19 +37,14 @@ class PerlinNoise {
         this.colourR = colourR || color('purple');                      // colour for moving right
         this.particles = [];                                            // array to put particles in
         this.fadeFrame = 0;                                             // iterating variable to count frames
-        this.fillRect = 'rect(0,0,this.width,this.height);';            // variable to be used in draw() to allow for efficient implementation of p5.Renderer support
+        this.fillRect = 'rect(0,0,width,height);';                       // variable to be used in draw() to allow for efficient implementation of p5.Renderer support
         this.backgroundColour = color('black');                         // background colour
         // (bg cannot be changed due to the implementation of fading which darkens the whole sketch every few frames)
 
         // arrays containing the names of valid variables for the get and set functions
-        this.strings = ['parentDiv'];
-        this.numbers = ['width', 'height', 'seed', 'numParticles', 'mode', 'minLife', 'maxLife', 'noiseScale', 'simulationSpeed', 'paddingY', 'paddingX'];
+        this.numbers = ['seed', 'numParticles', 'mode', 'minLife', 'maxLife', 'noiseScale', 'simulationSpeed', 'paddingY', 'paddingX'];
         this.colours = ['defaultColour', 'colourL', 'colourR'];
 
-        this.canvas = createCanvas(this.width, this.height);
-        if (this.parentDiv) {
-            this.canvas.parent(this.parentDiv);
-        }
         this.element = document.getElementById('p5_loading');
         if (this.element) {
             this.element.parentNode.removeChild(this.element);
@@ -73,9 +62,9 @@ class PerlinNoise {
         for(var i = 0; i < this.numParticles; i++){
             // initialise particle with reference to this object so it can access variables
             var p = new Particle(this);
-            p.pos.x = random(this.paddingX, this.width-this.paddingX);
+            p.pos.x = random(this.paddingX, width-this.paddingX);
             if (this.mode) {
-                p.pos.y = random(this.paddingY, this.height-this.paddingY);
+                p.pos.y = random(this.paddingY, width-this.paddingY);
             }
             else {
                 p.pos.y = this.paddingY;
@@ -88,7 +77,7 @@ class PerlinNoise {
      * To be put inside the p5 draw() function
      * @param {p5.Renderer} [r] - Optional renderer to pass in so we can use the Perlin Noise as a texture
      */
-    draw(r) {
+    draw(r) {/* 
         if (this.fadeFrame == 0 && r) {              // set renderer on the first frame
             this.fillRect = 'r.' + this.fillRect;
         }
@@ -102,9 +91,9 @@ class PerlinNoise {
             blendMode(LIGHTEST);
             fill(this.backgroundColour);
             eval(this.fillRect);
-        }
+        } */
         
-        blendMode(BLEND);
+        r.blendMode(BLEND);
         
         // iterate through particles
         for(var i = 0; i < this.numParticles; i++){
@@ -130,26 +119,10 @@ class PerlinNoise {
             fade_ratio = min((this.maxLife - this.particles[i].life) * 5 / this.maxLife, fade_ratio);
     
             // show the particle now that colour etc has been processed
-            fill(red(particle_color), green(particle_color), blue(particle_color), 255 * fade_ratio);
+            r.fill(red(particle_color), green(particle_color), blue(particle_color), 255 * fade_ratio);
             this.particles[i].display(radius, r);
         }
     } // end draw
-
-    // optionally to be attached to the p5 windowResized function to allow for resizing the canvas to respond to changes in the window's shape
-    /**
-     * Resize the canvas to the given sizes
-     * @param {number} [resizeWidth='class width variable'] - Width to make the canvas
-     * @param {number} [resizeHeight='class height variable'] - Height to make the canvas
-     */
-    canvasSize(resizeWidth, resizeHeight) {
-        resizeWidth = resizeWidth || this.width;
-        resizeHeight = resizeHeight || this.height;
-        resizeCanvas(resizeWidth, resizeHeight);
-
-        // update width and height variables
-        this.width = resizeWidth;
-        this.height = resizeHeight;
-    } // end canvasSize
 
     /**
      * Sets the value of one of the class parameters, and ensures updated values are actually propagated if their values only get used at the start.
@@ -160,17 +133,8 @@ class PerlinNoise {
         if (typeof value == 'undefined') {
             throw 'Error in PerlinNoise.setParameter: no value given';
         }
-        // if we're expecting a string
-        if (this.strings.indexOf(name) !== -1) {
-            // evaluate given value appropriately
-            eval('this.' + name + ' = "' + value + '";');
-            
-            // update the parent div if we were given an updated value for it
-            if (name == 'parentDiv') {
-                this.canvas.parent(this.parentDiv);
-            }
-        }
-        else if (this.numbers.indexOf(name) !== -1) {
+        // if we're expecting a number
+        if (this.numbers.indexOf(name) !== -1) {
             if (typeof value == 'number') {
                 eval('this.' + name + ' = ' + value.toString() + ';');
 
@@ -179,20 +143,15 @@ class PerlinNoise {
                     randomSeed(this.seed);
                     noiseSeed(this.seed);
                 }
-                else if (name == 'width' || name == 'height') {
-                    // resize the canvas if necessary
-                    canvasSize();
-                    // if no arguments given, canvasSize pulls width and height from this.width and this.height anyway so we don't need arguments
-                }
                 else if (name == 'numParticles') {
                     // if we need to change the number of particles
                     if (value > this.particles.length) {
                         // add new particles to the array if necessary
                         for (i = this.particles.length; i < value; i++) {
                             var p = new Particle(this);
-                            p.pos.x = random(this.paddingX, this.width-this.paddingX);
+                            p.pos.x = random(this.paddingX, width-this.paddingX);
                             if (this.mode) {
-                                p.pos.y = random(this.paddingY, this.height-this.paddingY);
+                                p.pos.y = random(this.paddingY, height-this.paddingY);
                             }
                             else {
                                 p.pos.y = this.paddingY;
@@ -210,6 +169,7 @@ class PerlinNoise {
                 throw ('Error in PerlinNoise.setParameter: value expected number but got ' + typeof value);
             }
         }
+        // otherwise if we're looking for a colour
         else if (this.colours.indexOf(name) !== -1) {
             // no need for checking as color() already returns white with invalid values and it's hard to check colour values anyway
             eval('this.' + name + ' = color("' + value + '");');
@@ -254,7 +214,7 @@ function Particle(p){
         while(iterations > 0) {
             
             // compute angle
-            var transition = map(this.pos.x, p.paddingX, p.width - p.paddingX, 0.1, 0.9);
+            var transition = map(this.pos.x, p.paddingX, width - p.paddingX, 0.1, 0.9);
             var angle = noise(this.pos.x/p.noiseScale, this.pos.y/p.noiseScale)*transition*TWO_PI*p.noiseScale;
             //var transition = map(this.pos.y, height/5, height-paddingY, 0, 1, true);
             //var angle = HALF_PI;
@@ -273,9 +233,9 @@ function Particle(p){
 
     // respawn if we're near the edge
     this.checkEdge = function(){
-        if(this.pos.x > p.width - p.paddingX
+        if(this.pos.x > width - p.paddingX
         || this.pos.x < p.paddingX
-        || this.pos.y > p.height - p.paddingY
+        || this.pos.y > height - p.paddingY
         || this.pos.y < p.paddingY){
             this.respawn();
         }
@@ -291,9 +251,9 @@ function Particle(p){
             this.color2 = p.colourL;
         }
 
-        this.pos.x = random(p.paddingX, p.width - p.paddingX);
+        this.pos.x = random(p.paddingX, width - p.paddingX);
         if (p.mode) {
-            this.pos.y = random(p.paddingY, (p.height*0.7 - p.paddingY));
+            this.pos.y = random(p.paddingY, (height*0.7 - p.paddingY));
             // as particles tend to travel downwards, it is better to weight their spawn so they appear further up more often
         }
         else {
@@ -309,6 +269,9 @@ function Particle(p){
         }
         else {
             ellipse(this.pos.x, this.pos.y, radius, radius);
+        }
+        if (radius == 2) {
+            console.log(this.pos);
         }
     };
     
