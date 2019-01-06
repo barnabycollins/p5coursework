@@ -9,7 +9,7 @@
 class PerlinNoise {
     /**
     * Create new Perlin Noise sketch
-    * @param {?p5.Renderer} [renderer] - The renderer to use for the sketch [null if default]
+    * @param {?p5.Renderer} [renderer] - The renderer to use for the sketch [null if default canvas]
     * @param {?number} [seed=1337] - The seed to use to generate the noise: must be a number, not a string
     * @param {?number} [numParticles=100] - The number of particles to generate (default: 100)
     * @param {?number} [mode=0] - The mode to use: 0 for particles spawning at the top, 1 for particles spawning everywhere
@@ -67,8 +67,8 @@ class PerlinNoise {
         else {
             background(this.backgroundColour);
             smooth();
+            noStroke();
         }
-        noStroke();
         
         // generate particles
         for(var i = 0; i < this.numParticles; i++){
@@ -91,6 +91,12 @@ class PerlinNoise {
      */
     draw(r) {
         if (r) {
+            if (this.fadeFrame == 0 && !this.r) {    // if this is the first frame and no renderer was specified in the initial definition
+                console.error('Warning: You have initialised your PerlinNoise sketch without specifying a renderer, but passed one into the draw() function anyway. While the sketch will still work, I strongly recommend that you pass the renderer into the first argument in the PerlinNoise() sketch initialisation too in order to avoid unexpected behaviour.');
+                r.background(this.backgroundColour);
+                r.smooth();
+                r.noStroke();
+            }
             this.r = r;
             this.width = r.width;
             this.height = r.height;
@@ -174,11 +180,6 @@ class PerlinNoise {
                     // update the seed if necessary
                     randomSeed(this.seed);
                     noiseSeed(this.seed);
-                }
-                else if (name == 'width' || name == 'height') {
-                    // resize the canvas if necessary
-                    canvasSize();
-                    // if no arguments given, canvasSize pulls width and height from this.width and this.height anyway so we don't need arguments
                 }
                 else if (name == 'numParticles') {
                     // if we need to change the number of particles

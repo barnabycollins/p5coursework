@@ -1,10 +1,12 @@
+
+// -------- P5 FUNCTIONS --------
 var pNoise, seed = 759, numParticles = 250, mode, minLife, maxLife = 20, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR, submit;
 
 function setup() {
     canvas = createCanvas(windowWidth * 0.4, windowHeight);
-    canvas.parent("canvascontainer");
+    canvas.parent('canvascontainer');
     pg = createGraphics(windowWidth * 0.4, windowHeight);
-    pNoise = new PerlinNoise(pg, seed, numParticles, mode, minLife, maxLife, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR);
+    pNoise = new PerlinNoise(null, seed, numParticles, mode, minLife, maxLife, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR);
 }
 function draw() {
     pNoise.draw(pg);
@@ -14,6 +16,7 @@ function windowResized() {
     canvas.resizeCanvas(windowWidth * 0.4, windowHeight);
 }
 
+// -------- SKETCH UPDATING FUNCTIONS --------
 /**
  * Update the (live) sketch with new values from the form
  */
