@@ -1,13 +1,17 @@
 var pNoise, seed = 759, numParticles = 250, mode, minLife, maxLife = 20, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR, submit;
 
 function setup() {
-    pNoise = new PerlinNoise('canvascontainer', windowWidth * 0.4, windowHeight, seed, numParticles, mode, minLife, maxLife, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR);
+    canvas = createCanvas(windowWidth * 0.4, windowHeight);
+    canvas.parent("canvascontainer");
+    pg = createGraphics(windowWidth * 0.4, windowHeight);
+    pNoise = new PerlinNoise(pg, seed, numParticles, mode, minLife, maxLife, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR);
 }
 function draw() {
-    pNoise.draw();
+    pNoise.draw(pg);
+    image(pg, 0, 0);
 }
 function windowResized() {
-    pNoise.canvasSize(windowWidth * 0.4, windowHeight);
+    canvas.resizeCanvas(windowWidth * 0.4, windowHeight);
 }
 
 /**
