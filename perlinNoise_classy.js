@@ -43,6 +43,7 @@ class PerlinNoise {
         this.colourR = colourR || color('purple');                      // colour for moving right
         this.particles = [];                                            // array to put particles in
         this.fadeFrame = 0;                                             // iterating variable to count frames
+        this.fillRect = 'rect(0,0,this.width,this.height);';            // variable to be used in draw() to allow for efficient implementation of p5.Renderer support
         this.backgroundColour = color('black');                         // background colour
         // (bg cannot be changed due to the implementation of fading which darkens the whole sketch every few frames)
 
@@ -85,18 +86,22 @@ class PerlinNoise {
 
     /**
      * To be put inside the p5 draw() function
+     * @param {p5.Renderer} [r] - Optional renderer to pass in so we can use the Perlin Noise as a texture
      */
-    draw() {
+    draw(r) {
+        if (this.fadeFrame == 0 && r) {              // set renderer on the first frame
+            this.fillRect = 'r.' + this.fillRect;
+        }
         ++this.fadeFrame;               // increment fadeFrame
         if(this.fadeFrame % 5 == 0){    // every 5th frame,
             
             blendMode(DIFFERENCE);      // fade past particle trails
             fill(1, 1, 1);
-            rect(0,0,this.width,this.height);
-            
+            eval(this.fillRect);
+
             blendMode(LIGHTEST);
             fill(this.backgroundColour);
-            rect(0,0,this.width,this.height);
+            eval(this.fillRect);
         }
         
         blendMode(BLEND);
@@ -126,7 +131,7 @@ class PerlinNoise {
     
             // show the particle now that colour etc has been processed
             fill(red(particle_color), green(particle_color), blue(particle_color), 255 * fade_ratio);
-            this.particles[i].display(radius);
+            this.particles[i].display(radius, r);
         }
     } // end draw
 
@@ -298,8 +303,13 @@ function Particle(p){
     };
 
     // actually show an ellipse at the position
-    this.display = function(r){
-        ellipse(this.pos.x, this.pos.y, r, r);
+    this.display = function(radius, r){
+        if (r) {
+            r.ellipse(this.pos.x, this.pos.y, radius, radius);
+        }
+        else {
+            ellipse(this.pos.x, this.pos.y, radius, radius);
+        }
     };
     
     this.respawn();
