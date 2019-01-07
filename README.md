@@ -50,7 +50,8 @@ All of these parameters (except `renderer`) can be played with in the HTML demo 
 &nbsp;
 
 ### `renderer`
-**Used to pass in a [p5.Graphics](https://p5js.org/reference/#/p5.Graphics) object for the sketch to render to.**\
+**Used to pass in an object for the sketch to render to.**\
+Type: [p5.Graphics](https://p5js.org/reference/#/p5.Graphics)
 Default: p5 global default canvas\
 Recommended range: Existing [p5.Graphics](https://p5js.org/reference/#/p5.Graphics) objects
 
@@ -60,6 +61,7 @@ Passing no value will cause the sketch to render to the global p5 canvas (ie the
 
 ### `seed`
 **The seed for use by the Perlin Noise generator.**\
+Type: Number\
 Default: 1337\
 Recommended range: Any number
 
@@ -67,6 +69,7 @@ Recommended range: Any number
 
 ### `numParticles`
 **The number of particles to show.**\
+Type: Number\
 Default: 100\
 Recommended range: 50-1000
 
@@ -76,6 +79,7 @@ More particles looks prettier but will perform slower. Using a larger canvas, sm
 
 ### `mode`
 **The mode to use when spawning particles.**\
+Type: Number\
 Default: 0\
 Recommended range: 0-1
 
@@ -85,6 +89,7 @@ Mode 0 will spawn particles only at the top of the sketch (as in the original pr
 
 ### `minLife`
 **The minimum life for a particle, measured in seconds.**\
+Type: Number\
 Default: 0\
 Recommended range: 0-20, less than [`maxLife`](###-`maxLife`)
 
@@ -92,6 +97,7 @@ Recommended range: 0-20, less than [`maxLife`](###-`maxLife`)
 
 ### `maxLife`
 **The maximum life for a particle, measured in seconds.**\
+Type: Number\
 Default: 10\
 Recommended range: 0-20, more than [`minLife`](###-`minLife`)
 
@@ -99,6 +105,7 @@ Recommended range: 0-20, more than [`minLife`](###-`minLife`)
 
 ### `noiseScale`
 **The scale of the Perlin Noise relative to the pixels on your screen.**\
+Type: Number\
 Default: 200\
 Recommended range: 100-500
 
@@ -108,6 +115,7 @@ A smaller scale will produce more intricate patterns, where a larger one will re
 
 ### `simulationSpeed`
 **The speed that particles should travel at.**\
+Type: Number\
 Default: 0.2\
 Recommended range: 0.05-0.3
 
@@ -117,6 +125,7 @@ Higher speeds will cause particle trails to look less consistent, and extremely 
 
 ### `paddingY`
 **The padding to put around the inside of the top and bottom of the canvas in pixels.**\
+Type: Number\
 Default: 30\
 Recommended range: 10-100
 
@@ -124,6 +133,7 @@ Recommended range: 10-100
 
 ### `paddingX`
 **The padding to put around the inside of the left and right sides of the canvas in pixels.**\
+Type: Number\
 Default: 30\
 Recommended range: 10-100
 
@@ -131,6 +141,7 @@ Recommended range: 10-100
 
 ### `defaultColour`
 **The colour that non-coloured particles should have.**\
+Type: [p5.Color](https://p5js.org/reference/#/p5.Color)\
 Default: White\
 Recommended range: Light colours
 
@@ -140,6 +151,7 @@ Each time a particle spawns, it has a 1/3 chance to be a coloured particle. This
 
 ### `colourL`
 **The colour that coloured particles should have when going left.**\
+Type: [p5.Color](https://p5js.org/reference/#/p5.Color)\
 Default: Cyan\
 Recommended range: Bright colours that complement [`colourR`](###-`colourR`)
 
@@ -147,6 +159,7 @@ Recommended range: Bright colours that complement [`colourR`](###-`colourR`)
 
 ### `colourR`
 **The colour that coloured particles should have when going right.**\
+Type: [p5.Color](https://p5js.org/reference/#/p5.Color)\
 Default: Purple\
 Recommended range: Bright colours that complement [`colourL`](###-`colourL`)
 
@@ -190,22 +203,20 @@ This function allows all parameters that are set in the constructor (except [`re
 
 Variables that can be changed:
 
-| `name`              | Type expected in `value` |
-| ------------------- | ------------------------ |
-| `'seed'`            | Number                   |
-| `'numParticles'`    | Number                   |
-| `'mode'`            | Number                   |
-| `'minLife'`         | Number                   |
-| `'maxLife'`         | Number                   |
-| `'noiseScale'`      | Number                   |
-| `'simulationSpeed'` | Number                   |
-| `'paddingY'`        | Number                   |
-| `'paddingX'`        | Number                   |
-| `'defaultColour'`   | String*                  |
-| `'colourL'`         | String*                  |
-| `'colourR'`         | String*                  |
-
-*Colours are compatible with all colour formats supported by the [p5 `color()` function](https://p5js.org/reference/#/p5/color), formatted as a string (eg `color(255, 255, 255)` → `'255, 255, 255'`)
+| `name`              | Type expected in `value`                          |
+| ------------------- | ------------------------------------------------- |
+| `'seed'`            | Number                                            |
+| `'numParticles'`    | Number                                            |
+| `'mode'`            | Number                                            |
+| `'minLife'`         | Number                                            |
+| `'maxLife'`         | Number                                            |
+| `'noiseScale'`      | Number                                            |
+| `'simulationSpeed'` | Number                                            |
+| `'paddingY'`        | Number                                            |
+| `'paddingX'`        | Number                                            |
+| `'defaultColour'`   | [p5.Color](https://p5js.org/reference/#/p5.Color) |
+| `'colourL'`         | [p5.Color](https://p5js.org/reference/#/p5.Color) |
+| `'colourR'`         | [p5.Color](https://p5js.org/reference/#/p5.Color) |
 
 &nbsp;
 
@@ -219,18 +230,18 @@ This function will return the value in the parameter given in `name`. Unlike `se
 
 Variables that can be got:
 
-| `name`              | Type returned                                           |
-| ------------------- | ------------------------------------------------------- |
+| `name`              | Type returned                                             |
+| ------------------- | --------------------------------------------------------- |
 | `'renderer'`        | [`p5.Graphics`](https://p5js.org/reference/#/p5.Graphics) |
-| `'seed'`            | Number                                                  |
-| `'numParticles'`    | Number                                                  |
-| `'mode'`            | Number                                                  |
-| `'minLife'`         | Number                                                  |
-| `'maxLife'`         | Number                                                  |
-| `'noiseScale'`      | Number                                                  |
-| `'simulationSpeed'` | Number                                                  |
-| `'paddingY'`        | Number                                                  |
-| `'paddingX'`        | Number                                                  |
-| `'defaultColour'`   | [`p5.Color`](https://p5js.org/reference/#/p5.Color)     |
-| `'colourL'`         | [`p5.Color`](https://p5js.org/reference/#/p5.Color)     |
-| `'colourR'`         | [`p5.Color`](https://p5js.org/reference/#/p5.Color)     |
+| `'seed'`            | Number                                                    |
+| `'numParticles'`    | Number                                                    |
+| `'mode'`            | Number                                                    |
+| `'minLife'`         | Number                                                    |
+| `'maxLife'`         | Number                                                    |
+| `'noiseScale'`      | Number                                                    |
+| `'simulationSpeed'` | Number                                                    |
+| `'paddingY'`        | Number                                                    |
+| `'paddingX'`        | Number                                                    |
+| `'defaultColour'`   | [`p5.Color`](https://p5js.org/reference/#/p5.Color)       |
+| `'colourL'`         | [`p5.Color`](https://p5js.org/reference/#/p5.Color)       |
+| `'colourR'`         | [`p5.Color`](https://p5js.org/reference/#/p5.Color)       |
