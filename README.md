@@ -32,7 +32,7 @@ function draw() {
 }
 ```
 
-Alongside this code you'd also need to import p5js and the sketch yourself using HTML `<script>` tags, for example:
+Alongside this code you'd also need to import [p5js](https://p5js.org/) and the sketch yourself using HTML `<script>` tags, for example:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/p5.min.js"></script>
@@ -58,7 +58,7 @@ All of these parameters (except `renderer`) can be played with in the HTML demo 
 
 ### `renderer`
 **Used to pass in an object for the sketch to render to.**\
-Type: [p5.Graphics](https://p5js.org/reference/#/p5.Graphics)
+Type: [p5.Graphics](https://p5js.org/reference/#/p5.Graphics)\
 Default: p5 global default canvas\
 Recommended range: Existing [p5.Graphics](https://p5js.org/reference/#/p5.Graphics) objects
 
