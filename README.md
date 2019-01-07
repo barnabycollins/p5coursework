@@ -1,5 +1,5 @@
 # Perlin Noise
-Based on [this sketch](https://www.openprocessing.org/sketch/566877) by [Tony R](https://www.openprocessing.org/user/77286).
+Based on [this sketch](https://www.openprocessing.org/sketch/566877) by [Tony R](https://www.openprocessing.org/user/77286). Full GitHub repo [here](https://github.com/barnstorm3r/p5coursework).
 
 Perlin Noise is a concept invented by Ken Perlin in 1983. It is a method of generating random textures that appear natural, with adjacent inputs giving similar outputs. It is used in many places, from the Minecraft terrain generator to digital art installations.
 
@@ -7,10 +7,17 @@ Perlin Noise is a concept invented by Ken Perlin in 1983. It is a method of gene
 
 This p5js sketch, at its core, uses Perlin Noise to direct the particles moving around the canvas, causing them to follow organic shapes (as well as each other) without any communication between particles. The shapes generated can be changed by providing a numeric 'seed' from which the Perlin Noise derives its structure.
 
+#### Files included in this package
+- `demo.html`: Webpage demonstrating the sketch with the option to change parameters.
+    - Contents of `demo-assets`: Stylesheet and JS code for `demo.html`.
+- `original.js`: The original sketch code, from [the openprocessing sketch](https://www.openprocessing.org/sketch/566877).
+- `perlinNoise.js`: The class itself: this is what you want to add to projects that use the sketch.
+- `README.md`: This readme.
+
 &nbsp;
 
 ## A basic implementation
-The simplest possible JS implementation of this sketch would be the following:
+A simple implementation of this sketch would look like the following:
 
 ```javascript
 var pNoise;
