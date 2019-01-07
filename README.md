@@ -132,7 +132,7 @@ Recommended range: 10-100
 Default: White\
 Recommended range: Light colours
 
-Each time a particle spawns, it has a $1/3$ chance to be a coloured particle. This is the colour to use for 'default' non-coloured particles.
+Each time a particle spawns, it has a 1/3 chance to be a coloured particle. This is the colour to use for 'default' non-coloured particles.
 
 &nbsp;
 
