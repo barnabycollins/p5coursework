@@ -229,7 +229,7 @@ Variables that can be changed:
 
 ### `getParameter(name)`
 **Getter for all parameters.**
-- `name`: The name of the parameter to set.
+- `name`: The name of the parameter to get.
     - Type: String
     - Requirement: Required
 
