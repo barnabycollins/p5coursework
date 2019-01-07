@@ -305,9 +305,6 @@ function Particle(p){
         else {
             ellipse(this.pos.x, this.pos.y, radius, radius);
         }
-        if (radius = 2) {
-            //console.log(this.pos);
-        }
     };
     
     this.respawn();

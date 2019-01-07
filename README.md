@@ -167,7 +167,7 @@ For example, the `noiseScale` of a `PerlinNoise` object called `pNoise` would be
 ### `draw(renderer)`
 **Runs every frame; updates the sketch.**
 - `renderer`: The renderer to render the sketch on.
-    - Type: p5.Renderer
+    - Type: [p5.Graphics](https://p5js.org/reference/#/p5.Graphics)
     - Requirement: Optional
 
 When no renderer is given, the sketch will be rendered on the default canvas.\
@@ -202,6 +202,7 @@ Variables that can be changed:
 | `'defaultColour'`   | String*                  |
 | `'colourL'`         | String*                  |
 | `'colourR'`         | String*                  |
+
 *Colours are compatible with all colour formats supported by the [p5 `color()` function](https://p5js.org/reference/#/p5/color), formatted as a string (eg `color(255, 255, 255)` → `'255, 255, 255'`)
 
 &nbsp;
