@@ -1,4 +1,6 @@
 # Perlin Noise
+Based on [this sketch](https://www.openprocessing.org/sketch/566877) by [Tony R](https://www.openprocessing.org/user/77286).
+
 Perlin Noise is a concept invented by Ken Perlin in 1983. It is a method of generating random textures that appear natural, with adjacent inputs giving similar outputs. It is used in many places, from the Minecraft terrain generator to digital art installations.
 
 ![An example of Perlin Noise](https://flafla2.github.io/img/2014-08-09-perlinnoise/raw2d.png)

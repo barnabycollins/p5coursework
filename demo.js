@@ -5,12 +5,10 @@ var pNoise, seed = 759, numParticles = 250, mode, minLife, maxLife = 20, noiseSc
 function setup() {
     canvas = createCanvas(windowWidth * 0.4, windowHeight);
     canvas.parent('canvascontainer');
-    pg = createGraphics(windowWidth * 0.4, windowHeight);
-    pNoise = new PerlinNoise(pg, seed, numParticles, mode, minLife, maxLife, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR);
+    pNoise = new PerlinNoise(undefined, seed, numParticles, mode, minLife, maxLife, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR);
 }
 function draw() {
-    pNoise.draw(pg);
-    image(pg, 0, 0);
+    pNoise.draw();
 }
 function windowResized() {
     canvas.resizeCanvas(windowWidth * 0.4, windowHeight);
