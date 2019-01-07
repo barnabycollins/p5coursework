@@ -82,7 +82,7 @@ class PerlinNoise {
 
     /**
      * To be put inside the p5 draw() function
-     * @param {p5.Renderer} [r] - Optional renderer to pass in so we can use the Perlin Noise as a texture
+     * @param {?p5.Renderer} [r] - Optional renderer to pass in so we can use the Perlin Noise as a texture
      */
     draw(r) {
         if (r) {
@@ -220,6 +220,9 @@ class PerlinNoise {
         if (this.numbers.indexOf(name) !== -1 || this.colours.indexOf(name) !== -1) {
             // return the value of that variable
             return eval('this.'+name);
+        }
+        else if (name == 'renderer') {
+            return this.r;
         }
         else {
             throw ('Error in PerlinNoise.getParameter: variable name given (' + name +') does not exist');
