@@ -237,7 +237,7 @@ function Particle(p){
 
     // run every frame
     this.move = function(iterations){
-        // if dead, respawn
+        // decrement life; if dead, respawn
         if((this.life -= 0.01666) < 0) {
             this.respawn();
         }
