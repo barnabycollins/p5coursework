@@ -44,18 +44,20 @@ function updateSketch() {
  */
 function restartSketch() {
     for (i = 0; i < inputs.length; i++) {
+        // for every input
         if (inputs[i].className.indexOf('number') !== -1) {
-            if (isNaN(eval('Number(form.' + inputs[i].name + '.value);'))) {
-                eval(inputs[i].name + ' = null;');
-            }
-            else {
+            // for numbers
+            if (!isNaN(eval('Number(form.' + inputs[i].name + '.value);'))) {
+                // if it's a valid number
                 eval(inputs[i].name + ' = Number(form.' + inputs[i].name + '.value);');
             }
         }
         else if (inputs[i].className == 'colour') {
+            // if it's a colour
             eval(inputs[i].name + ' = color(form.' + inputs[i].name + '.value);');
         }
         else if (inputs[i].className !== 'submit-button') {
+            // if it's a string (not used in the current demo)
             eval(inputs[i].name + ' = form.' + inputs[i].name + '.value;');
         }
     }
@@ -66,6 +68,7 @@ function restartSketch() {
  * Add listeners for form submission
  */
 document.addEventListener('DOMContentLoaded', function() {
+    // once the page is fully loaded
     form = document.getElementById('parameterform');
     inputs = form.getElementsByTagName('input');
     form.addEventListener('submit', function(event) {

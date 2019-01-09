@@ -1,6 +1,6 @@
 # Demo Explained
 
-To start with, here is the full JS code for the demonstration:
+To start with, here is the full JS code for the demonstration. Don't be spooked; I'll be explaining it below.
 
 ```javascript
 // -------- P5 FUNCTIONS --------
@@ -48,18 +48,20 @@ function updateSketch() {
  */
 function restartSketch() {
     for (i = 0; i < inputs.length; i++) {
+        // for every input
         if (inputs[i].className.indexOf('number') !== -1) {
-            if (isNaN(eval('Number(form.' + inputs[i].name + '.value);'))) {
-                eval(inputs[i].name + ' = null;');
-            }
-            else {
+            // for numbers
+            if (!isNaN(eval('Number(form.' + inputs[i].name + '.value);'))) {
+                // if it's a valid number
                 eval(inputs[i].name + ' = Number(form.' + inputs[i].name + '.value);');
             }
         }
         else if (inputs[i].className == 'colour') {
+            // if it's a colour
             eval(inputs[i].name + ' = color(form.' + inputs[i].name + '.value);');
         }
         else if (inputs[i].className !== 'submit-button') {
+            // if it's a string (not used in the current demo)
             eval(inputs[i].name + ' = form.' + inputs[i].name + '.value;');
         }
     }
@@ -70,6 +72,7 @@ function restartSketch() {
  * Add listeners for form submission
  */
 document.addEventListener('DOMContentLoaded', function() {
+    // once the page is fully loaded
     form = document.getElementById('parameterform');
     inputs = form.getElementsByTagName('input');
     form.addEventListener('submit', function(event) {
@@ -100,7 +103,7 @@ function setup() {
 }
 ```
 
-When p5 is loaded I need to create a canvas to fill the left 40% of the window, put it in my canvascontainer div so I can place it more precisely using CSS, and initialise the `PerlinNoise` class with the values I'd set at the start. I'm using the global p5 canvas so there's no need to pass in a renderer, hence the `undefined` in the first parameter.
+When p5 is loaded I need to create a canvas to fill the 40% of the window width, put it in my canvascontainer div so I can place it precisely using CSS, and initialise the `PerlinNoise` class with the values I'd set at the start. I'm using the global p5 canvas so there's no need to pass in a renderer, hence the `undefined` the first parameter.
 
 &nbsp;
 
@@ -116,7 +119,9 @@ Every frame, p5 runs everything in the `draw()` function. The `pNoise` class nee
 
 As I want to keep this sketch within the left 40% of the window, I also add `resizeCanvas()` to the p5 `windowResized()` function that runs whenever the size of the browser window changes.
 
-That's the core implementation explained. Read on if you are also interested in how I implemented the form.
+&nbsp;
+
+That's the core p5 implementation explained. Read on if you are also interested in how I implemented the form.
 
 &nbsp;
 
@@ -185,7 +190,7 @@ What this does is create a line of code inside an `eval()` function using the in
 ```javascript
 pNoise.setParameter("seed", Number(form.seed.value));
 ```
-The code inside `eval()` then gets parsed by the JavaScript interpreter.\
+The code inside `eval()` then gets run by the JavaScript interpreter.\
 So, we're running `setParameter` on the `seed` variable, passing in the value contained in the `seed` input from the form.
 
 &nbsp;
@@ -209,6 +214,83 @@ This code actually isn't used in the current version of the demo since all input
 
 &nbsp;
 
+### restartSketch()
+This function grabs all the values from the inputs, and restarts the sketch with the new values. This is useful when you're changing things like the seed: these changes may take a while to be fully visible after updating because the old value will still be represented in the fading past trails.
+
+Put simply, it updates all the variables that were declared in the first line and then runs `setup()` again, recreating the canvas and re-initialising the class.
+
+```javascript
+function restartSketch() {
+    for (i = 0; i < inputs.length; i++) {
+        // for every input
+        if (inputs[i].className.indexOf('number') !== -1) {
+            // for numbers
+            if (!isNaN(eval('Number(form.' + inputs[i].name + '.value);'))) {
+                // if it's a valid number
+                eval(inputs[i].name + ' = Number(form.' + inputs[i].name + '.value);');
+            }
+        }
+        else if (inputs[i].className == 'colour') {
+            // if it's a colour
+            eval(inputs[i].name + ' = color(form.' + inputs[i].name + '.value);');
+        }
+        else if (inputs[i].className !== 'submit-button') {
+            // if it's a string (not used in the current demo)
+            eval(inputs[i].name + ' = form.' + inputs[i].name + '.value;');
+        }
+    }
+    setup();
+}
+```
+
+The structure is similar to [`updateSketch()`](###-updateSketch()) in that it iterates through `inputs`, and evaluates different statements depending on the type it's expecting.
+
+For numbers, if the number is valid, it runs the following:
+```javascript
+eval(inputs[i].name + ' = Number(form.' + inputs[i].name + '.value);');
+```
+The expression inside the `eval()` function will return a value similar to the following (again, using seed as an example):
+```javascript
+seed = Number(form.seed.value);
+```
+So, in short, this line just sets the `seed` variable to the value of the seed input.
+
 &nbsp;
 
-### restartSketch()
+Again, we do the same for colours and strings as outlined in the documentation for [`updateSketch()`](###-updateSketch()) (with the one change being that we're changing variables rather than calling `setParameter`).
+
+Finally, we call `setup()` which will re-initialise the whole sketch. Since the initialisation of the class inside `setup()` uses the values of the variables we've just updated, it will pull in all the updated values when redrawing the canvas.
+
+&nbsp;
+
+### Setting event listeners
+Finally, we need to set the listeners to actually run these functions when the form is submitted.
+
+```javascript
+document.addEventListener('DOMContentLoaded', function() {
+    // once the page is fully loaded
+    form = document.getElementById('parameterform');
+    inputs = form.getElementsByTagName('input');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        updateSketch();
+    });
+    document.getElementById('restart-btn').addEventListener('click', function() {
+        restartSketch();
+    });
+});
+```
+
+So, when the `DOMContentLoaded` event fires, signifying that the page is fully loaded, we put the form (identified by the `parameterform` id) into the `form` variable and then get all the inputs inside it stored in the `inputs` array.
+
+Then we set two event listeners:
+
+- One for the form's `submit` event, which fires each time the 'Update' button is clicked or the user hits the Return key on an input
+  - Prevent the `POST` request that forms submit by default
+  - Run `updateSketch()`
+- One for when the user clicks the button with id `restart-btn`
+  - Run `restartSketch()`
+
+Once those event listeners are set, the functions `updateSketch()` and `restartSketch()` will be attached to the 'Update' and 'Restart' buttons respectively.
+
+And that's everything!
