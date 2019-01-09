@@ -1,6 +1,7 @@
 // This sketch borrows heavily from yasai's perlin noise sketch
 // Tony R. 2018
-// refactored by Barnaby Collins, 2019
+// refactored by Barnaby Collins, 2018-2019
+// licensed under CC BY-SA 3.0
 'use strict';
 
 

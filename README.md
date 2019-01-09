@@ -10,6 +10,7 @@ This p5js sketch, at its core, uses Perlin Noise to direct the particles moving 
 #### Files included in this package
 - `demo.html`: Webpage demonstrating the sketch with the option to change parameters.
     - Contents of `demo-assets`: Stylesheet and JS code for `demo.html`.
+    - `demo_explained.md`: Full explanation of how the demonstration was implemented.
 - `original.js`: The original sketch code, from [the openprocessing sketch](https://www.openprocessing.org/sketch/566877).
 - `perlinNoise.js`: The class itself: this is what you want to add to projects that use the sketch.
 - `README.md`: This readme.

@@ -62,6 +62,9 @@ function restartSketch() {
     setup();
 }
 
+/**
+ * Add listeners for form submission
+ */
 document.addEventListener('DOMContentLoaded', function() {
     form = document.getElementById('parameterform');
     inputs = form.getElementsByTagName('input');
