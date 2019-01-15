@@ -15,6 +15,27 @@ This p5js sketch, at its core, uses Perlin Noise to direct the particles moving 
 - `perlinNoise.js`: The class itself: this is what you want to add to projects that use the sketch.
 - `README.md`: This readme.
 
+#### Changes made to the original
+- Fix seed: originally was a string (p5js produces the same noise for all strings)
+- Refactor sketch into class:
+  - Move code from `setup()` & variable declarations into constructor
+  - Remove canvas creation
+  - Rename variables more appropriately (eg `nums` -> `numParticles`, `color_from` -> `colourL`)
+  - Add support for `p5.Graphics` parameter so sketch can be used as a texture
+  - Add parameters:
+    - `paddingX`, `paddingY`
+    - `minLife`
+    - `mode`
+    - Colours
+  - Parameterise existing variables declared at the start of the function (`noiseScale`, padding, `maxLife`)
+- Add new optional mode: particles spawn all over canvas
+- Associate all variables with their respective classes so that multiple instances of `PerlinNoise` can run in parallel without interfering with each other
+- Add `setParameter()` and `getParameter()` including ability to change parameters (including number of particles) on the fly without restarting
+- Refactor particle class:
+  - Consolidate `respawn()` and `respawnTop()` into a single `respawn()` function that will decide its behaviour based on parent class's mode
+  - Remove unused variables
+  - Add `minLife` and **made particles have varible life lengths after their initial spawn: needs doing**
+
 &nbsp;
 
 ## A basic implementation
