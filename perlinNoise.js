@@ -153,8 +153,10 @@ class PerlinNoise {
             // work out how bright (opaque) the particle should be based on its life:
             // dark initially and finally, and bright otherwise
             var fade_ratio;
-            fade_ratio = min(this.particles[i].life * 5 / this.maxLife, 1);
-            fade_ratio = min((this.maxLife - this.particles[i].life) * 5 / this.maxLife, fade_ratio);
+            // fade towards the end of life
+            fade_ratio = min(this.particles[i].life * 5 / this.particles[i].origLife, 1);
+            // fade when appearing initially
+            fade_ratio = min(this.particles[i].origLife - this.particles[i].life, fade_ratio);
     
             // show the particle now that colour etc has been processed
             if (this.r) {
@@ -246,7 +248,8 @@ function Particle(p){
     // member properties and initialization
     this.vel = createVector(0, 0);
     this.pos = createVector(0, 0);
-    this.life = random(p.minLife, p.maxLife);
+    this.life;
+    this.origLife;
 
     // run every frame
     this.move = function(iterations){
@@ -304,7 +307,7 @@ function Particle(p){
         else {
             this.pos.y = p.paddingY;
         }
-        this.life = p.maxLife;
+        this.origLife = this.life = random(p.minLife, p.maxLife);
     };
 
     // actually show an ellipse at the position
