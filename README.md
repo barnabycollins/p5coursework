@@ -243,9 +243,9 @@ Variables that can be changed:
 | `'simulationSpeed'` | Number                                            |
 | `'paddingY'`        | Number                                            |
 | `'paddingX'`        | Number                                            |
-| `'defaultColour'`   | [p5.Color](https://p5js.org/reference/#/p5.Color) |
-| `'colourL'`         | [p5.Color](https://p5js.org/reference/#/p5.Color) |
-| `'colourR'`         | [p5.Color](https://p5js.org/reference/#/p5.Color) |
+| `'defaultColour'`   | [`p5.Color`](https://p5js.org/reference/#/p5.Color) |
+| `'colourL'`         | [`p5.Color`](https://p5js.org/reference/#/p5.Color) |
+| `'colourR'`         | [`p5.Color`](https://p5js.org/reference/#/p5.Color) |
 
 &nbsp;
 
