@@ -11,6 +11,7 @@ This p5js sketch, at its core, uses Perlin Noise to direct the particles moving 
 - `demo.html`: Webpage demonstrating the sketch with the option to change parameters.
     - Contents of `demo-assets`: Stylesheet and JS code for `demo.html`.
     - `demo_explained.md`: Full explanation of how the demonstration was implemented.
+- `LICENSE.txt`: a copy of the [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) license associated with this project
 - `original.js`: The original sketch code, from [the openprocessing sketch](https://www.openprocessing.org/sketch/566877).
 - `perlinNoise.js`: The class itself: this is what you want to add to projects that use the sketch.
 - `README.md`: This readme.
@@ -34,7 +35,7 @@ This p5js sketch, at its core, uses Perlin Noise to direct the particles moving 
 - Refactor particle class:
   - Consolidate `respawn()` and `respawnTop()` into a single `respawn()` function that will decide its behaviour based on parent class's mode
   - Remove unused variables
-  - Add `minLife` and **made particles have varible life lengths after their initial spawn: needs doing**
+  - Add `minLife` and **made particles have variable life lengths after their initial spawn: needs doing**
 
 &nbsp;
 
@@ -74,7 +75,7 @@ Below is the parameter order for a `PerlinNoise` definition.
 `PerlinNoise(`[`renderer`](###-`renderer`)`,`[`seed`](###-`seed`)`,`[`numParticles`](###-`numParticles`)`,`[`mode`](###-`mode`)`,`[`minLife`](###-`minLife`)`,`[`maxLife`](###-`maxLife`)`,`[`noiseScale`](###-`noiseScale`)`,`[`simulationSpeed`](###-`simulationSpeed`)`,`[`paddingY`](###-`paddingY`)`,`[`paddingX`](###-`paddingX`)`,`[`defaultColour`](###-`defaultColour`)`,`[`colourL`](###-`colourL`)`,`[`colourR`](###-`colourR`)`);`
 
 All parameters are optional. To omit a parameter, simply put `undefined` in its place if you need to use a parameter that appears later in the definition.\
-All of these parameters (except `renderer`) can be played with in the HTML demo page included with this script.
+All of these parameters (except `renderer`) can be played with in the HTML demo page included with the script.
 
 &nbsp;
 
@@ -102,7 +103,7 @@ Type: Number\
 Default: 100\
 Recommended range: 50-1000
 
-More particles looks prettier but will perform slower. Using a larger canvas, smaller padding or [mode](###-`mode`) 1 may require more particles to properly fill the drawing area.
+More particles looks prettier but will perform slower. Using a larger canvas shorter particle lifespan or [mode](###-`mode`) 1 may benefit from more particles to properly fill the drawing area.
 
 &nbsp;
 
@@ -112,7 +113,7 @@ Type: Number\
 Default: 0\
 Recommended range: 0-1
 
-Mode 0 will spawn particles only at the top of the sketch (as in the original project) but 1 will spawn them anywhere in the top 70% of the canvas (As the particles tend to travel downwards, weighting their spawnpoints upwards provides an even coverage of the canvas).
+Mode 0 will spawn particles only at the top of the sketch (as in the [original project](https://www.openprocessing.org/sketch/566877)) but 1 will spawn them anywhere in the top 70% of the canvas. As the particles tend to travel downwards, weighting their spawnpoints upwards in this way provides an even coverage of the canvas.
 
 &nbsp;
 
@@ -122,13 +123,13 @@ Type: Number\
 Default: 0\
 Recommended range: 0-20, less than [`maxLife`](###-`maxLife`)
 
-&nbsp;
-
 ### `maxLife`
 **The maximum life for a particle, measured in seconds.**\
 Type: Number\
 Default: 10\
 Recommended range: 0-20, more than [`minLife`](###-`minLife`)
+
+Specifying longer lives may help to fill the canvas more evenly (especially in [mode](###-`mode`) 0) as particles get more time to explore away from their spawnpoints.
 
 &nbsp;
 
@@ -148,7 +149,7 @@ Type: Number\
 Default: 0.2\
 Recommended range: 0.05-0.3
 
-Higher speeds will cause particle trails to look less consistent, and extremely high speeds make the sketch into an incoherent mess of dots.
+Higher speeds will cause particle trails to look less consistent, and extremely high speeds make the sketch into an incoherent mess of dots (which is not really the effect that this sketch is going for).
 
 &nbsp;
 
@@ -157,8 +158,6 @@ Higher speeds will cause particle trails to look less consistent, and extremely 
 Type: Number\
 Default: 30\
 Recommended range: 10-100
-
-&nbsp;
 
 ### `paddingX`
 **The padding to put around the inside of the left and right sides of the canvas in pixels.**\
@@ -182,15 +181,13 @@ Each time a particle spawns, it has a 1/3 chance to be a coloured particle. This
 **The colour that coloured particles should have when going left.**\
 Type: [p5.Color](https://p5js.org/reference/#/p5.Color)\
 Default: Cyan\
-Recommended range: Bright colours that complement [`colourR`](###-`colourR`)
-
-&nbsp;
+Recommended range: Bright colours that complement [`colourR`](###-`colourR`) and [`defaultColour`](###-`defaultColour`)
 
 ### `colourR`
 **The colour that coloured particles should have when going right.**\
 Type: [p5.Color](https://p5js.org/reference/#/p5.Color)\
 Default: Purple\
-Recommended range: Bright colours that complement [`colourL`](###-`colourL`)
+Recommended range: Bright colours that complement [`colourL`](###-`colourL`) and [`defaultColour`](###-`defaultColour`)
 
 &nbsp;
 
@@ -215,7 +212,8 @@ For example, the `noiseScale` of a `PerlinNoise` object called `pNoise` would be
     - Requirement: Optional
 
 When no renderer is given, the sketch will be rendered on the default canvas.\
-If a renderer has already been given in the class constructor, it is not strictly necessary to include it again in the `draw()` function.
+If a renderer has already been given in the class constructor, it is not strictly necessary to include it again in the `draw()` function.\
+It is not recommended to only pass the renderer into the `draw()` function: while the code will still work, this will omit the setup procedures in the class constructor and may cause the sketch to misbehave.
 
 &nbsp;
 
@@ -225,10 +223,10 @@ If a renderer has already been given in the class constructor, it is not strictl
     - Type: String
     - Requirement: Required<br><br>
 - `value`: The value to set that parameter to.
-    - Type: Dependent on `name`
+    - Type: Dependent on `name` (see below)
     - Requirement: Required
 
-This function allows all parameters that are set in the constructor (except [`renderer`](###-`renderer`)) to be changed on the fly. Changes should be made instantly, without any need to restart the sketch.
+This function allows all parameters that are set in the constructor (except [`renderer`](###-`renderer`)) to be changed on the fly. Changes should take effect instantly, without any need to restart the sketch.
 
 Variables that can be changed:
 
