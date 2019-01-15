@@ -231,17 +231,17 @@ This function allows all parameters that are set in the constructor (except [`re
 
 Variables that can be changed:
 
-| `name`              | Type expected in `value`                          |
-| ------------------- | ------------------------------------------------- |
-| `'seed'`            | Number                                            |
-| `'numParticles'`    | Number                                            |
-| `'mode'`            | Number                                            |
-| `'minLife'`         | Number                                            |
-| `'maxLife'`         | Number                                            |
-| `'noiseScale'`      | Number                                            |
-| `'simulationSpeed'` | Number                                            |
-| `'paddingY'`        | Number                                            |
-| `'paddingX'`        | Number                                            |
+| `name`              | Type expected in `value`                            |
+| ------------------- | --------------------------------------------------- |
+| `'seed'`            | Number                                              |
+| `'numParticles'`    | Number                                              |
+| `'mode'`            | Number                                              |
+| `'minLife'`         | Number                                              |
+| `'maxLife'`         | Number                                              |
+| `'noiseScale'`      | Number                                              |
+| `'simulationSpeed'` | Number                                              |
+| `'paddingY'`        | Number                                              |
+| `'paddingX'`        | Number                                              |
 | `'defaultColour'`   | [`p5.Color`](https://p5js.org/reference/#/p5.Color) |
 | `'colourL'`         | [`p5.Color`](https://p5js.org/reference/#/p5.Color) |
 | `'colourR'`         | [`p5.Color`](https://p5js.org/reference/#/p5.Color) |
