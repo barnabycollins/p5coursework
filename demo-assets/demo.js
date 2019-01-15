@@ -1,6 +1,6 @@
 
 // -------- P5 FUNCTIONS --------
-var pNoise, seed = 759, numParticles = 250, mode, minLife, maxLife = 20, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR, submit;
+var pNoise, seed = 759, numParticles = 250, mode, minLife, maxLife = 25, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR, submit;
 
 function setup() {
     canvas = createCanvas(windowWidth * 0.4, windowHeight);
