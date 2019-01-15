@@ -97,6 +97,11 @@ class PerlinNoise {
             this.width = r.width;
             this.height = r.height;
         }
+        else {
+            // if there's no renderer, update dimensions from global in case the canvas resized
+            this.width = width;
+            this.height = height;
+        }
 
         ++this.fadeFrame;               // increment fadeFrame
         if(this.fadeFrame % 5 == 0){    // every 5th frame,
@@ -136,6 +141,10 @@ class PerlinNoise {
             
             // work out the colour the particle should have based on its heading
             var particle_heading = this.particles[i].vel.heading()/PI;
+            // reverse particle if it's got negative heading
+
+            // TODO: MAKE THIS BEHAVE MORE NORMALLY - MIGHT BE WHY PARTICLES TEND TO TRAVEL LEFT
+
             if(particle_heading < 0){
                 particle_heading *= -1;
             }
@@ -277,7 +286,7 @@ function Particle(p){
         }
     };
     
-    // alternative respawn function where we respawn anywhere in the canvas, not necessarily at the top
+    // replaces respawn and respawnTop: respawns at the top or anywhere depending on value of mode
     this.respawn = function(){
         this.color1 = this.color2 = p.defaultColour;
         
@@ -308,5 +317,6 @@ function Particle(p){
         }
     };
     
+    // spawn when the particle is initialised and all functions are defined
     this.respawn();
 }
