@@ -35,7 +35,8 @@ This p5js sketch, at its core, uses Perlin Noise to direct the particles moving 
 - Refactor particle class:
   - Consolidate `respawn()` and `respawnTop()` into a single `respawn()` function that will decide its behaviour based on parent class's mode
   - Remove unused variables
-  - Add `minLife` and **made particles have variable life lengths after their initial spawn: needs doing**
+  - Add `minLife` and made particles have random life lengths in that range outside of first life
+    - Adjust early and late-life fading to accommodate these changes
 
 &nbsp;
 
