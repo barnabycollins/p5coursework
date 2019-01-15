@@ -20,9 +20,9 @@ class PerlinNoise {
     * @param {?number} [simulationSpeed=0.2] - A multiplier for the speed at which particles travel (default: 0.2)
     * @param {?number} [paddingY=30] - The vertical padding to add inside the canvas at the top and bottom
     * @param {?number} [paddingX=30] - The horizontal padding to add inside the canvas at the left and right sides
-    * @param {?color} [defaultColour=white] - The colour to use for non-coloured particles
-    * @param {?color} [colourL=cyan] - The colour to give particles travelling left
-    * @param {?color} [colourR=purple] - The colour to give particles travelling right
+    * @param {?p5.Color} [defaultColour=white] - The colour to use for non-coloured particles
+    * @param {?p5.Color} [colourL=cyan] - The colour to give particles travelling left
+    * @param {?p5.Color} [colourR=purple] - The colour to give particles travelling right
     */
     constructor (renderer, seed, numParticles, mode, minLife, maxLife, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR) {
         this.r = renderer;                                              // renderer

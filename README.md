@@ -1,5 +1,5 @@
-# Perlin Noise
-Based on [this sketch](https://www.openprocessing.org/sketch/566877) by [Tony R](https://www.openprocessing.org/user/77286), licensed under [Creative Commons Attribution-ShareAlike 3.0](https://creativecommons.org/licenses/by-sa/3.0). Full GitHub repo [here](https://github.com/barnstorm3r/p5coursework).
+# Perlin Trails
+Based on [this sketch](https://www.openprocessing.org/sketch/566877) by [Tony R](https://www.openprocessing.org/user/77286), licensed under [Creative Commons Attribution-ShareAlike 3.0](https://creativecommons.org/licenses/by-sa/3.0). Full GitHub repo with development history [here](https://github.com/barnstorm3r/p5coursework).
 
 Perlin Noise is a concept invented by Ken Perlin in 1983. It is a method of generating random textures that appear natural, with adjacent inputs giving similar outputs. It is used in many places, from the Minecraft terrain generator to digital art installations.
 
@@ -11,7 +11,7 @@ This p5js sketch, at its core, uses Perlin Noise to direct the particles moving 
 - `demo.html`: Webpage demonstrating the sketch with the option to change parameters.
     - Contents of `demo-assets`: Stylesheet and JS code for `demo.html`.
     - `demo_explained.md`: Full explanation of how the demonstration was implemented.
-- `LICENSE.txt`: a copy of the [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) license associated with this project
+- `LICENSE.txt`: a copy of the [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) license associated with this project.
 - `original.js`: The original sketch code, from [the openprocessing sketch](https://www.openprocessing.org/sketch/566877).
 - `perlinNoise.js`: The class itself: this is what you want to add to projects that use the sketch.
 - `README.md`: This readme.
@@ -19,7 +19,7 @@ This p5js sketch, at its core, uses Perlin Noise to direct the particles moving 
 #### Changes made to the original
 - Fix seed: originally was a string (p5js produces the same noise for all strings)
 - Refactor sketch into class:
-  - Move code from `setup()` & variable declarations into constructor
+  - Move code from `setup()` & anonymous variable declarations into constructor
   - Remove canvas creation
   - Rename variables more appropriately (eg `nums` -> `numParticles`, `color_from` -> `colourL`)
   - Add support for `p5.Graphics` parameter so sketch can be used as a texture
@@ -104,7 +104,7 @@ Type: Number\
 Default: 100\
 Recommended range: 50-1000
 
-More particles looks prettier but will perform slower. Using a larger canvas shorter particle lifespan or [mode](###-`mode`) 1 may benefit from more particles to properly fill the drawing area.
+More particles looks prettier but will perform slower. Using a larger canvas, shorter particle lifespan or [mode](###-`mode`) 1 may benefit from more particles to properly fill the drawing area.
 
 &nbsp;
 
@@ -122,13 +122,13 @@ Mode 0 will spawn particles only at the top of the sketch (as in the [original p
 **The minimum life for a particle, measured in seconds.**\
 Type: Number\
 Default: 0\
-Recommended range: 0-20, less than [`maxLife`](###-`maxLife`)
+Recommended range: 0-30, less than or equal to [`maxLife`](###-`maxLife`)
 
 ### `maxLife`
 **The maximum life for a particle, measured in seconds.**\
 Type: Number\
 Default: 10\
-Recommended range: 0-20, more than [`minLife`](###-`minLife`)
+Recommended range: 10-30, more than or equal to [`minLife`](###-`minLife`)
 
 Specifying longer lives may help to fill the canvas more evenly (especially in [mode](###-`mode`) 0) as particles get more time to explore away from their spawnpoints.
 
@@ -150,7 +150,7 @@ Type: Number\
 Default: 0.2\
 Recommended range: 0.05-0.3
 
-Higher speeds will cause particle trails to look less consistent, and extremely high speeds make the sketch into an incoherent mess of dots (which is not really the effect that this sketch is going for).
+Higher speeds will cause particle trails to look less consistent, and extremely high speeds make the sketch into an incoherent mess of dots (which, while lovely, is not really the effect that this sketch is going for).
 
 &nbsp;
 
@@ -212,9 +212,10 @@ For example, the `noiseScale` of a `PerlinNoise` object called `pNoise` would be
     - Type: [p5.Graphics](https://p5js.org/reference/#/p5.Graphics)
     - Requirement: Optional
 
-When no renderer is given, the sketch will be rendered on the default canvas.\
-If a renderer has already been given in the class constructor, it is not strictly necessary to include it again in the `draw()` function.\
-It is not recommended to only pass the renderer into the `draw()` function: while the code will still work, this will omit the setup procedures in the class constructor and may cause the sketch to misbehave.
+This function needs to be placed inside the `draw()` function associated with your p5js sketch. See the [example implementation](##-A-basic-implementation) for a demonstration of how to do this.
+
+If a renderer is given in the constructor, it is not necessary to pass it into `draw()` as well, though that implementation is supported and will work fine. If no renderer is given at all, across both locations, the sketch will be rendered on the default canvas. This is the default behaviour for the class.\
+It is not recommended to only pass the renderer into the `draw()` function (ie not pass it into the constructor as well): while the code will still work, this will omit the setup procedures in the class constructor and may cause the sketch to misbehave.
 
 &nbsp;
 
@@ -227,7 +228,7 @@ It is not recommended to only pass the renderer into the `draw()` function: whil
     - Type: Dependent on `name` (see below)
     - Requirement: Required
 
-This function allows all parameters that are set in the constructor (except [`renderer`](###-`renderer`)) to be changed on the fly. Changes should take effect instantly, without any need to restart the sketch.
+This function allows all parameters that are set in the constructor, except [`renderer`](###-`renderer`), to be changed on the fly. Changes should take effect instantly, without any need to restart the sketch.
 
 Variables that can be changed:
 
@@ -254,7 +255,7 @@ Variables that can be changed:
     - Type: String
     - Requirement: Required
 
-This function will return the value in the parameter given in `name`. Unlike `setParameter()` it also can deal with the `renderer` variable.
+This function will return the value in the parameter given in `name`. Unlike [`setParameter()`](###-`setParameter(name,-value)`) it also can deal with the [`renderer`](###-`renderer`) variable.
 
 Variables that can be got:
 

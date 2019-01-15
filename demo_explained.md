@@ -4,7 +4,7 @@ To start with, here is the full JS code for the demonstration. Don't be spooked;
 
 ```javascript
 // -------- P5 FUNCTIONS --------
-var pNoise, seed = 759, numParticles = 250, mode, minLife, maxLife = 20, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR, submit;
+var pNoise, seed = 759, numParticles = 250, mode, minLife, maxLife = 25, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR, submit;
 
 function setup() {
     canvas = createCanvas(windowWidth * 0.4, windowHeight);
@@ -89,7 +89,7 @@ Now, here it is broken down:
 
 ## p5 implementation
 ```javascript
-var pNoise, seed = 759, numParticles = 250, mode, minLife, maxLife = 20, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR, submit;
+var pNoise, seed = 759, numParticles = 250, mode, minLife, maxLife = 25, noiseScale, simulationSpeed, paddingY, paddingX, defaultColour, colourL, colourR, submit;
 ```
 First of all, I needed to initialise some variables with some values that I found to suit the demonstration. I chose to specify the seed, number of particles and maximum life because the canvas on the demonstration is quite large (hence large number of particles and particle life) and I liked seed `759`.
 
