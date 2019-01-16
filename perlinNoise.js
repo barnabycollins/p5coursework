@@ -1,7 +1,8 @@
 // This sketch borrows heavily from yasai's perlin noise sketch
 // Tony R. 2018
-// refactored by Barnaby Collins, 2018-2019
-// licensed under CC BY-SA 3.0
+// This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License. 
+// To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+// Refactored by zrlr73, 2018-2019
 'use strict';
 
 
